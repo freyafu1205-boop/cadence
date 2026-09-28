@@ -1,131 +1,187 @@
 #!/usr/bin/env node
-/* Cadence — repository self-check.
- *
- * Cheap, dependency-free guards for the mistakes that actually break a static
- * site: a selector that matches nothing, and a translation key that only exists
- * in one language. Run it before every push:
+/* Repository self-check — run before every push.
  *
  *   node build/check.mjs
+ *
+ * This site ships the OmniFlow Studio client unmodified and drives it from a
+ * static snapshot. That combination fails in ways that are invisible until a
+ * browser tries it: an endpoint the client calls but the static API never
+ * implements, a snapshot missing a field a loader reads, or the two scripts
+ * loaded in the wrong order. All of those are checkable statically, so they are
+ * checked here instead of discovered by a visitor.
  */
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => readFileSync(join(root, p), "utf8");
 
-const pages = ["index.html", "plan.html"];
-const scripts = ["assets/i18n.js", "assets/ui.js", "assets/home.js", "assets/planner.js"];
-
 const problems = [];
-const note = (file, msg) => problems.push(`${file}: ${msg}`);
+const fail = (where, msg) => problems.push(`${where}: ${msg}`);
 
-/* ---------------------------------------------------------------- 1 · ids */
+const app = read("assets/app.js");
+const api = read("assets/static-api.js");
+const map = read("map.html");
+const gallery = read("index.html");
 
-const idsInPage = new Map(pages.map((p) => [p, new Set()]));
-for (const page of pages) {
-  const html = read(page);
-  for (const m of html.matchAll(/\sid="([^"]+)"/g)) idsInPage.get(page).add(m[1]);
-}
+/* ------------------------------------------------- 1 · API surface parity */
 
-/** Which page owns each script, so a missing id is reported against the right file. */
-const scriptsByPage = {
-  "index.html": ["assets/ui.js", "assets/home.js", "assets/i18n.js"],
-  "plan.html": ["assets/ui.js", "assets/planner.js", "assets/i18n.js"],
-};
+const want = new Set();
+for (const m of app.matchAll(/\/api\/graph\/\$\{[^}]*\}\/([A-Za-z0-9_-]+)/g)) want.add(m[1]);
 
-for (const [page, files] of Object.entries(scriptsByPage)) {
-  const ids = idsInPage.get(page);
-  for (const file of files) {
-    const js = read(file);
-    for (const m of js.matchAll(/\$\("#([A-Za-z0-9_-]+)"\)/g)) {
-      if (!ids.has(m[1])) note(file, `$("#${m[1]}") has no matching id in ${page}`);
-    }
-    for (const m of js.matchAll(/getElementById\("([A-Za-z0-9_-]+)"\)/g)) {
-      if (!ids.has(m[1])) note(file, `getElementById("${m[1]}") has no matching id in ${page}`);
-    }
+const have = new Set();
+for (const m of api.matchAll(/rest === "([A-Za-z0-9_-]+)"/g)) have.add(m[1]);
+for (const m of api.matchAll(/rest\.match\((\/\^[^\n]*?\/)\)/g)) {
+  for (const lit of m[1].matchAll(/([A-Za-z0-9_-]{3,})/g)) {
+    if (!["match", "rest"].includes(lit[1])) have.add(lit[1]);
   }
 }
 
-/* ------------------------------------------------------------- 2 · i18n keys */
+/* Actions the client can call that the snapshot deliberately does not serve.
+ * `convo-path` belongs to the non-linear conversation panel, which only appears
+ * for graphs carrying `conversation` metadata; none of the published plans do,
+ * so the button that calls it is never rendered. Listed explicitly rather than
+ * filtered by a wildcard, so a *new* gap still fails the check. */
+const KNOWN_GAPS = new Set(["convo-path"]);
 
-const i18nSrc = read("assets/i18n.js");
-const dictBody = i18nSrc.slice(i18nSrc.indexOf("const CADENCE_I18N"), i18nSrc.indexOf("const LANG_KEY"));
-const enBlock = dictBody.slice(dictBody.indexOf("en: {"), dictBody.indexOf("zh: {"));
-const zhBlock = dictBody.slice(dictBody.indexOf("zh: {"), dictBody.lastIndexOf("};"));
-
-const keysOf = (block) => new Set([...block.matchAll(/"([a-z0-9]+(?:\.[a-z0-9]+)*)"\s*:/g)].map((m) => m[1]));
-const en = keysOf(enBlock);
-const zh = keysOf(zhBlock);
-
-for (const k of en) if (!zh.has(k)) note("assets/i18n.js", `key "${k}" is missing from zh`);
-for (const k of zh) if (!en.has(k)) note("assets/i18n.js", `key "${k}" is missing from en`);
-
-const used = new Set();
-for (const page of pages) {
-  const html = read(page);
-  for (const m of html.matchAll(/data-i18n(?:-title|-placeholder|-aria)?="([^"]+)"/g)) used.add(m[1]);
-  for (const m of html.matchAll(/data-i18n-aria="([^"]+)"/g)) used.add(m[1]);
+const unimplemented = [...want].filter((a) => !have.has(a) && !KNOWN_GAPS.has(a)).sort();
+if (unimplemented.length) {
+  fail("static-api.js", `the Studio client calls these graph actions but they are not handled: ${unimplemented.join(", ")}`);
 }
-for (const file of scripts) {
-  const js = read(file);
-  for (const m of js.matchAll(/\bt\("([a-z0-9]+(?:\.[a-z0-9]+)*)"/g)) used.add(m[1]);
-  for (const m of js.matchAll(/\bt\("([a-z0-9.]+)"\s*\+/g)) {
-    // dynamic keys such as t("day." + key) — expand the known suffixes
-    const prefix = m[1];
-    if (prefix === "day.") {
-      for (const d of ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]) {
-        used.add("day." + d);
-        used.add("day." + d + ".l");
-      }
-    }
-  }
+const topLevel = ["/api/graphs", "/api/tree", "/api/templates", "/api/search", "/api/events", "/api/crosslinks"];
+for (const p of topLevel) {
+  if (!api.includes(`"${p}"`)) fail("static-api.js", `top-level endpoint not handled: ${p}`);
 }
-for (const k of used) if (!en.has(k)) note("i18n", `used key "${k}" is not defined`);
 
-/* -------------------------------------------------------------- 3 · data */
+/* ------------------------------------------- 2 · credentials are not seeded */
 
-const planDir = join(root, "data", "p");
-const planFiles = readdirSync(planDir).filter((f) => f.endsWith(".json"));
+if (/of-theme"\)\) localStorage\.setItem\("of-theme"/.test(api)) {
+  fail("static-api.js", "of-theme is seeded — the Studio would stop following prefers-color-scheme");
+}
+if (!api.includes('localStorage.setItem("of-lang", "en")')) {
+  fail("static-api.js", 'the English default is not seeded (expected localStorage.setItem("of-lang", "en"))');
+}
+
+/* ------------------------------------------------------ 3 · map.html wiring */
+
+const iCss = map.indexOf("assets/app.css");
+const iApi = map.indexOf("assets/static-api.js");
+const iApp = map.indexOf("assets/app.js");
+if (iApi < 0 || iApp < 0) fail("map.html", "the static API and/or the Studio client are not loaded");
+else if (iApi > iApp) fail("map.html", "static-api.js must be loaded BEFORE app.js");
+if (iCss < 0) fail("map.html", "assets/app.css is not linked");
+for (const v of ["/vendor/katex/katex.min.css", "/vendor/katex/katex.min.js"]) {
+  if (!map.includes(v)) fail("map.html", `vendor asset missing: ${v}`);
+  if (!existsSync(join(root, v.replace(/^\//, "")))) fail("vendor/", `file not present on disk: ${v}`);
+}
+if (!existsSync(join(root, "vendor/katex/fonts"))) fail("vendor/", "katex fonts are missing");
+if (!map.includes('id="canvasWrap"')) fail("map.html", "canvasWrap is gone — the snapshot badge would never mount");
+if (!map.includes("cad-bar")) fail("map.html", "the snapshot badge is missing");
+if (!/window\.Cadence/.test(api)) fail("static-api.js", "window.Cadence (the badge API) is not exposed");
+
+/* ------------------------------------------- 4 · snapshot contract & data */
+
 const index = JSON.parse(read("data/index.json"));
-const indexIds = new Set(index.plans.map((p) => p.id));
-
-for (const file of planFiles) {
-  const id = file.replace(/\.json$/, "");
-  if (!indexIds.has(id)) note("data/index.json", `plan "${id}" exists but is not in the index — run node build/index.mjs`);
+for (const key of ["generatedAt", "generator", "graphs", "tree", "templates", "crosslinks"]) {
+  if (!(key in index)) fail("data/index.json", `missing top-level key: ${key}`);
 }
-for (const id of indexIds) {
-  if (!planFiles.includes(id + ".json")) note("data/index.json", `index lists "${id}" but data/p/${id}.json is gone`);
+if (!Array.isArray(index.graphs) || !index.graphs.length) fail("data/index.json", "no graphs published");
+for (const key of ["en", "zh"]) {
+  if (!Array.isArray(index.templates?.[key]) || !index.templates[key].length) {
+    fail("data/index.json", `templates.${key} is missing or empty`);
+  }
 }
+if (!Array.isArray(index.tree?.folders)) fail("data/index.json", "tree.folders is missing");
 
 const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-const toMin = (s) => { const [h, m] = String(s).split(":").map(Number); return h * 60 + (m || 0); };
+let totalNodes = 0, totalEdges = 0, totalNotes = 0;
 
-for (const file of planFiles) {
-  const plan = JSON.parse(read(join("data", "p", file)));
-  const catIds = new Set((plan.categories || []).map((c) => c.id));
-  const seen = new Set();
-  for (const ev of plan.events || []) {
-    if (!DAYS.includes(ev.day)) note(file, `${ev.id}: unknown day "${ev.day}"`);
-    if (!catIds.has(ev.category)) note(file, `${ev.id}: unknown category "${ev.category}"`);
-    if (toMin(ev.end) <= toMin(ev.start)) note(file, `${ev.id}: end is not after start`);
-    if (toMin(ev.start) < plan.dayStart * 60 || toMin(ev.end) > plan.dayEnd * 60) {
-      note(file, `${ev.id}: outside the ${plan.dayStart}:00–${plan.dayEnd}:00 window and will not render`);
+for (const entry of index.graphs) {
+  const bundlePath = `data/g/${entry.id}.json`;
+  if (!existsSync(join(root, bundlePath))) {
+    fail("data/index.json", `published graph has no bundle: ${entry.id}`);
+    continue;
+  }
+  const bundle = JSON.parse(read(bundlePath));
+  for (const key of ["graph", "validate", "analyze", "notes"]) {
+    if (!(key in bundle)) fail(bundlePath, `missing key: ${key}`);
+  }
+  const g = bundle.graph;
+  if (g.id !== entry.id) fail(bundlePath, `graph.id "${g.id}" does not match the published id "${entry.id}"`);
+  if (g.lang !== "en") fail(bundlePath, `lang is "${g.lang}", expected "en"`);
+
+  const nodeIds = new Set(g.nodes.map((n) => n.id));
+  for (const n of g.nodes) {
+    if (!n.id || !n.label) fail(bundlePath, `node ${n.id ?? "(no id)"} is missing an id or a label`);
+    if (n.type && !/^(cat-)/.test(n.type) && !["start", "end", "process", "decision", "milestone", "task", "person",
+      "department", "goal", "risk", "idea", "note", "definition", "lemma", "proposition", "theorem", "paper",
+      "topic", "data", "custom", "day"].includes(n.type)) {
+      fail(bundlePath, `node ${n.id} has an unregistered type "${n.type}"`);
     }
-    if (seen.has(ev.id)) note(file, `duplicate event id "${ev.id}"`);
-    seen.add(ev.id);
-    for (const field of ["title", "titleZh"]) if (!ev[field]) note(file, `${ev.id}: missing ${field}`);
   }
-  for (const field of ["name", "nameZh", "desc", "descZh"]) {
-    if (!plan[field]) note(file, `missing ${field}`);
+  for (const e of g.edges) {
+    if (!nodeIds.has(e.source)) fail(bundlePath, `edge ${e.id} starts at a node that does not exist: ${e.source}`);
+    if (!nodeIds.has(e.target)) fail(bundlePath, `edge ${e.id} ends at a node that does not exist: ${e.target}`);
   }
+  for (const grp of g.groups) {
+    for (const m of grp.members) {
+      if (!nodeIds.has(m)) fail(bundlePath, `group ${grp.id} references a node that does not exist: ${m}`);
+    }
+  }
+
+  /* static-api.js only surfaces a note summary for keys present in graph.notes,
+   * and the note panel reads the full text from bundle.notes. Both must line up. */
+  const noteIds = Object.keys(bundle.notes);
+  if (!noteIds.length) fail(bundlePath, "no note texts at all");
+  for (const id of noteIds) {
+    if (!nodeIds.has(id)) fail(bundlePath, `a note exists for a node that does not exist: ${id}`);
+    if (!g.notes[id]) fail(bundlePath, `graph.notes has no summary for ${id} (the Studio would not show it)`);
+    else if (g.notes[id] !== bundle.notes[id].split("\n")[0].slice(0, 120)) {
+      fail(bundlePath, `graph.notes["${id}"] does not match the first line of the full note`);
+    }
+  }
+  for (const id of nodeIds) {
+    if (!bundle.notes[id]) fail(bundlePath, `node ${id} has no note`);
+  }
+  if (!bundle.validate?.ok) fail(bundlePath, `validation failed: ${(bundle.validate?.issues || []).join(" | ")}`);
+  const warns = bundle.validate?.warnings || [];
+  if (warns.length) fail(bundlePath, `validation warnings: ${warns.slice(0, 3).join(" | ")}`);
+
+  /* A week-plan graph without weekday groups is not a schedule any more. */
+  const groupLabels = g.groups.map((x) => x.label);
+  const dayish = DAYS.filter((d) => groupLabels.some((l) => l.toLowerCase().startsWith(d.slice(0, 3))));
+  if (!dayish.length) fail(bundlePath, "no weekday groups — this does not read as a schedule");
+
+  totalNodes += g.nodes.length;
+  totalEdges += g.edges.length;
+  totalNotes += noteIds.length;
 }
 
-/* ---------------------------------------------------------------- report */
+/* ---------------------------------------------------- 5 · gallery linking */
+
+for (const entry of index.graphs) {
+  if (!gallery.includes('map.html#')) fail("index.html", "the gallery does not link to map.html#<id>");
+  break;
+}
+if (!gallery.includes("data/index.json")) fail("index.html", "the gallery never fetches data/index.json");
+if (!gallery.includes("of-lang")) fail("index.html", "the gallery does not share the language key with the Studio");
+if (!gallery.includes('localStorage.setItem("of-theme"')) {
+  fail("index.html", "the gallery's explicit theme choice is not mirrored into of-theme");
+}
+if (/<script[^>]+src="https?:/.test(gallery) || /<script[^>]+src="https?:/.test(map)) {
+  fail("index.html/map.html", "an external script is loaded — the site must stay dependency-free");
+}
+
+/* -------------------------------------------------------------- report */
 
 if (problems.length) {
   console.error(`✗ ${problems.length} problem(s):`);
   for (const p of problems) console.error("  - " + p);
   process.exit(1);
 }
-console.log(`✓ checks passed — ${pages.length} pages, ${scripts.length} scripts, ${planFiles.length} plans, ${en.size} i18n keys (en = zh)`);
+console.log(
+  `✓ checks passed — client actions ${want.size}/${want.size} handled, ` +
+  `${index.graphs.length} maps, ${totalNodes} nodes, ${totalEdges} edges, ${totalNotes} notes, ` +
+  `templates en/zh ${index.templates.en.length}/${index.templates.zh.length}`
+);

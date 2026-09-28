@@ -1,0 +1,110 @@
+[
+  {
+    "nodeId": "day-mon",
+    "content": "Monday — 4 blocks, 6.0 h scheduled.\n- First block: 08:00 · Prepare Linear Algebra lecture\n- Last block: 16:30 · Research block\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Preparation 1.5 h, Lectures 1.5 h, Admin 1.0 h, Research 2.0 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #2563eb\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-tue",
+    "content": "Tuesday — 4 blocks, 6.0 h scheduled.\n- First block: 09:00 · Prepare Analysis lecture\n- Last block: 17:30 · Grade problem set 3\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Preparation 1.5 h, Lectures 1.5 h, Office hours 1.5 h, Grading 1.5 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #0d9488\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-wed",
+    "content": "Wednesday — 4 blocks, 6.0 h scheduled.\n- First block: 09:00 · Grade problem set 3 (cont.)\n- Last block: 17:15 · Curriculum committee\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Grading 2.0 h, Admin 1.5 h, Research 2.5 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #7c3aed\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-thu",
+    "content": "Thursday — 4 blocks, 6.5 h scheduled.\n- First block: 08:00 · Prepare problem session\n- Last block: 17:00 · Reading group prep\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Preparation 1.5 h, Lectures 1.5 h, Office hours 1.5 h, Research 2.0 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #c2410c\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-fri",
+    "content": "Friday — 4 blocks, 5.3 h scheduled.\n- First block: 09:00 · Writing block\n- Last block: 17:00 · Open door hour\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Research 2.0 h, Admin 0.8 h, Lectures 1.5 h, Office hours 1.0 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #b45309\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-sat",
+    "content": "Saturday — 1 blocks, 2.0 h scheduled.\n- First block: 10:00 · Uninterrupted writing\n- Last block: 12:00 · Uninterrupted writing\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Research 2.0 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #0369a1\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "tw-01",
+    "content": "Monday 08:00–09:30 · Prepare Linear Algebra lecture (1.5 h)\n- Category: Preparation\n- Window: 08:00 → 09:30, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: tw-01 (the lecture follows its preparation)\n- Blocks: nothing downstream\n- Note: Slides + two worked examples.\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-02",
+    "content": "Monday 10:00–11:30 · Linear Algebra — lecture 7 (1.5 h)\n- Category: Lectures\n- Window: 10:00 → 11:30, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: tw-02 (the lecture follows its preparation)\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-03",
+    "content": "Monday 13:00–14:00 · Course logistics (1.0 h)\n- Category: Admin\n- Window: 13:00 → 14:00, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 60 minutes, 1.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-04",
+    "content": "Monday 14:30–16:30 · Research block (2.0 h)\n- Category: Research\n- Window: 14:30 → 16:30, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 120 minutes, 2.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-05",
+    "content": "Tuesday 09:00–10:30 · Prepare Analysis lecture (1.5 h)\n- Category: Preparation\n- Window: 09:00 → 10:30, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: tw-05 (the second lecture follows its preparation)\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-06",
+    "content": "Tuesday 11:00–12:30 · Real Analysis — lecture 7 (1.5 h)\n- Category: Lectures\n- Window: 11:00 → 12:30, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: tw-06 (the second lecture follows its preparation)\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-07",
+    "content": "Tuesday 14:00–15:30 · Office hours (1.5 h)\n- Category: Office hours\n- Window: 14:00 → 15:30, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-08",
+    "content": "Tuesday 16:00–17:30 · Grade problem set 3 (1.5 h)\n- Category: Grading\n- Window: 16:00 → 17:30, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: tw-08 (grading continues the next morning)\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-09",
+    "content": "Wednesday 09:00–11:00 · Grade problem set 3 (cont.) (2.0 h)\n- Category: Grading\n- Window: 09:00 → 11:00, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 120 minutes, 2.0 h\n- Blocked by: tw-09 (feedback goes out once grading is finished)\n- Blocks: tw-09 (grading continues the next morning)\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-10",
+    "content": "Wednesday 11:15–12:00 · Feedback to students (0.8 h)\n- Category: Admin\n- Window: 11:15 → 12:00, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: tw-10 (feedback goes out once grading is finished)\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-11",
+    "content": "Wednesday 13:30–16:00 · Deep research block (2.5 h)\n- Category: Research\n- Window: 13:30 → 16:00, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 150 minutes, 2.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-12",
+    "content": "Wednesday 16:30–17:15 · Curriculum committee (0.8 h)\n- Category: Admin\n- Window: 16:30 → 17:15, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-13",
+    "content": "Thursday 08:00–09:30 · Prepare problem session (1.5 h)\n- Category: Preparation\n- Window: 08:00 → 09:30, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-14",
+    "content": "Thursday 10:00–11:30 · Problem session — Linear Algebra (1.5 h)\n- Category: Lectures\n- Window: 10:00 → 11:30, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-15",
+    "content": "Thursday 13:00–14:30 · Office hours (1.5 h)\n- Category: Office hours\n- Window: 13:00 → 14:30, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-16",
+    "content": "Thursday 15:00–17:00 · Reading group prep (2.0 h)\n- Category: Research\n- Window: 15:00 → 17:00, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 120 minutes, 2.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-17",
+    "content": "Friday 09:00–11:00 · Writing block (2.0 h)\n- Category: Research\n- Window: 09:00 → 11:00, inside the plan's 7:00–22:00 day\n- Runs inside: Friday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 120 minutes, 2.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-18",
+    "content": "Friday 11:15–12:00 · Week review and next-term planning (0.8 h)\n- Category: Admin\n- Window: 11:15 → 12:00, inside the plan's 7:00–22:00 day\n- Runs inside: Friday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-19",
+    "content": "Friday 14:00–15:30 · Tutorial — master students (1.5 h)\n- Category: Lectures\n- Window: 14:00 → 15:30, inside the plan's 7:00–22:00 day\n- Runs inside: Friday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-20",
+    "content": "Friday 16:00–17:00 · Open door hour (1.0 h)\n- Category: Office hours\n- Window: 16:00 → 17:00, inside the plan's 7:00–22:00 day\n- Runs inside: Friday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 60 minutes, 1.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "tw-21",
+    "content": "Saturday 10:00–12:00 · Uninterrupted writing (2.0 h)\n- Category: Research\n- Window: 10:00 → 12:00, inside the plan's 7:00–22:00 day\n- Runs inside: Saturday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 120 minutes, 2.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  }
+]

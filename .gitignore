@@ -1,5 +1,4 @@
-# nothing here needs ignoring at build time — the site is plain static files.
-# these are just the usual local noise.
+# the build outputs in data/ are committed on purpose — the site is the artefact.
 .DS_Store
 Thumbs.db
 *.log

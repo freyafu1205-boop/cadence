@@ -1,63 +1,76 @@
-# Cadence
+# cadence
 
-**A static, two-page schedule planner.** Light and dark follow your browser; English is the default
-and Chinese is one click away; every layout is fluid until you ask for a narrower column.
+**OmniFlow maps of weekly plans, served as a static snapshot.**
+Live: <https://freyafu1205-boop.github.io/cadence/>
 
-Live: `https://<your-user>.github.io/cadence/`
+A week is a graph, not a list. Every time block in these plans is a node, every
+dependency an edge, so the whole week can be laid out, searched, and analysed for the
+place where it actually breaks.
 
 ## What it is
 
-A weekly planner with no account, no server and no build step at runtime. Plans are plain JSON
-snapshots; the grid is a real calendar with drag-to-move, drag-to-resize and click-to-create. Your
-edits live in `localStorage`, so a visitor can rearrange the whole week and never touches the
-published file.
+Two static pages and no backend, the same shape as
+[mathflow-site](https://github.com/kanghelyu/mathflow-site):
 
 | Path | Purpose |
 | --- | --- |
-| `index.html` | Gallery: one card per plan, linking to `plan.html?plan=<id>` |
-| `plan.html` | The planner workspace — the weekly grid, agenda and category meters |
-| `assets/app.css` | Design system: tokens, light/dark palettes, grid, components |
-| `assets/i18n.js` | English (source) and Chinese dictionaries, `data-i18n` applier |
-| `assets/ui.js` | Shared shell: theme, layout width, language toggle, toasts |
-| `assets/home.js` | Gallery rendering |
-| `assets/planner.js` | Grid rendering, editing, drag/resize, persistence, import/export |
-| `data/index.json` | The only file `index.html` fetches: plan list with computed stats |
-| `data/p/<id>.json` | One plan: categories, day window, events (bilingual) |
-| `build/index.mjs` | Regenerates `data/index.json` from `data/p/*.json` |
+| `index.html` | Gallery: one card per map, linking to `map.html#<graphId>` |
+| `map.html` | The **unmodified** OmniFlow Studio client, driving a static snapshot |
+| `assets/static-api.js` | Browser-side implementation of the Studio's HTTP API over the snapshot |
+| `assets/lib/*.js` | OmniFlow's own `graph-core` / `graph-analysis` / `group-suggest` / `converters`, shipped verbatim |
+| `assets/app.js`, `assets/app.css` | The OmniFlow Studio client, shipped verbatim |
+| `vendor/katex/**` | Vendored KaTeX (the Studio loads it from `/vendor/`) |
+| `data/index.json` | Map list, folder tree, template catalogue (en + zh) |
+| `data/g/<id>.json` | Per-map snapshot: `{ graph, validate, analyze, notes }` |
+| `build/schedule-to-graph.mjs` | Turns `data/plans/<id>.json` into an OmniFlow graph payload |
+| `build/snapshot.mjs` | Builds `data/` — validation and analysis come from OmniFlow's own modules |
+| `build/check.mjs` | Static self-check (see below) |
 
-## Preferences
+## How it works without a server
 
-All three are stored in `localStorage` and applied before the first paint, so there is no flash.
+`of studio` normally serves the client over an HTTP API. Here the client is untouched and
+the API is reimplemented in the browser:
 
-| Preference | Values | Default | Stored as |
-| --- | --- | --- | --- |
-| Theme | Auto · Light · Dark | **Auto** | `cadence.theme` |
-| Layout width | Fluid · Focus | **Fluid** | `cadence.width` |
-| Language | English · 中文 | **English** | `cadence.lang` |
+- **Reads** come from a build-time snapshot in `data/`.
+- **Writes** are applied in memory and mirrored to `localStorage` under `cadence.overlay.v1`,
+  so an edit survives a reload in *your* browser only. The published snapshot is never
+  modified and visitors never see each other's edits. A small badge appears once your copy
+  diverges, with a reset button.
+- **Algorithms are the real ones.** Layout, validation, dependency analysis, group
+  suggestions and every export format come from OmniFlow's own browser-safe modules,
+  imported verbatim — nothing is reimplemented by hand.
+- Cross-tab sync (SSE) and anything needing durable shared state is declined with an
+  explicit message rather than failing silently.
 
-**Auto** writes no attribute at all — the palette is then driven purely by
-`@media (prefers-color-scheme: dark)`, so the site keeps following the browser live, including when
-you flip the OS theme with the page open.
+## Theme and language
 
-**Fluid** lets the seven day columns share the entire viewport width. **Focus** keeps the identical
-grid but caps the surrounding page to a readable column.
+| | Default | Behaviour |
+| --- | --- | --- |
+| Theme | **follows the browser** | The Studio client reads `of-theme`; when the key is **unset** it uses `prefers-color-scheme` and keeps following it live. This site deliberately never seeds that key, so both pages track the OS. An explicit Light/Dark choice on the gallery is mirrored into `of-theme`; **Auto** removes it again. |
+| Language | **English** | `of-lang` is seeded to `en` because the Studio otherwise hard-defaults to Chinese. The gallery's 中文 button writes the same key, and the Studio's own toggle takes over from there. |
 
-## Editing model
+## Two deliberate differences from mathflow-site
 
-- **Reads** come from the published snapshot in `data/`.
-- **Writes** are applied in memory and mirrored to `localStorage` under `cadence.plan.<id>`.
-- A **“Saved locally in this browser”** badge appears once you have diverged from the snapshot.
-- **Reset to snapshot** drops the local copy and restores the published week.
-- **Export JSON** downloads your week; **Import JSON** appends events from an exported file.
+1. **`of-theme` is not seeded.** The original pins it to `dark`, which stops the client
+   from following the browser. Removing that line is what makes the theme requirement work.
+2. **`convo-path` is not implemented.** It belongs to the non-linear conversation panel,
+   which only renders for graphs carrying `conversation` metadata. None of the published
+   plans do, so the button that calls it never appears. `build/check.mjs` lists it as a
+   known gap — any *other* unimplemented endpoint fails the check.
 
-Nothing is uploaded. Opening the site in another browser or on another device shows the snapshot,
-not your edits.
+## Rebuilding
 
-## Adding a plan
+```bash
+node build/schedule-to-graph.mjs   # data/plans/*.json  ->  *.graph.json + *.notes.json
+node build/snapshot.mjs            # -> data/g/*.json + data/index.json
+node build/check.mjs               # static self-check
+```
 
-1. Drop a new file into `data/p/` — the file name must equal the plan `id`.
-2. Run `node build/index.mjs` to refresh `data/index.json`.
-3. Commit and push.
+`build/check.mjs` guards the failure modes that are invisible until a browser tries them:
+an endpoint the client calls but the static API does not implement, a snapshot missing a
+field a loader reads, `of-theme` being seeded, the two scripts loaded in the wrong order,
+edge or group references to nodes that do not exist, a note whose summary line does not
+match its body, a map with no weekday groups, or an external `<script>` creeping in.
 
 ## Local preview
 
@@ -65,22 +78,15 @@ The pages fetch JSON, so `file://` will not work. Serve the folder:
 
 ```bash
 python -m http.server 8000      # then open http://localhost:8000/
-# or
-npx serve .
 ```
-
-## Deploying
-
-Static files only. On GitHub Pages: **Settings → Pages → Source: Deploy from a branch →
-`main` / `/ (root)`**. No custom domain and no build action are required; `.nojekyll` stops Jekyll
-from touching the assets.
 
 ## Credits
 
-Structure inspired by [mathflow-site](https://github.com/kanghelyu/mathflow-site) — a gallery page
-plus a full-page workspace, driven entirely by static snapshots. Cadence is an independent
-implementation for scheduling rather than map viewing.
+Built with [OmniFlow](https://github.com/kanghelyu/omni-flow) (CC BY-NC 4.0). The Studio
+client is shipped unmodified. Structure inspired by
+[mathflow-site](https://github.com/kanghelyu/mathflow-site).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT for this repository's own files — see [LICENSE](LICENSE). OmniFlow's client and
+modules remain under their own licence (CC BY-NC 4.0).

@@ -1,0 +1,543 @@
+{
+  "name": "Teaching Week — a week as a dependency map",
+  "description": "A term week where two lectures anchor everything else: preparation sits the day before, office hours and grading sit the day after.",
+  "direction": "TD",
+  "lang": "en",
+  "nodeTypes": {
+    "cat-lecture": {
+      "label": "授课",
+      "labelEn": "Lectures",
+      "shape": "hexagon",
+      "fill": "#7c3aed",
+      "border": "#7c3aed",
+      "textColor": "#ffffff",
+      "icon": "▶"
+    },
+    "cat-prep": {
+      "label": "备课",
+      "labelEn": "Preparation",
+      "shape": "rounded",
+      "fill": "#0f766e",
+      "border": "#0f766e",
+      "textColor": "#ffffff",
+      "icon": "✎"
+    },
+    "cat-office": {
+      "label": "答疑",
+      "labelEn": "Office hours",
+      "shape": "rect",
+      "fill": "#0369a1",
+      "border": "#0369a1",
+      "textColor": "#ffffff",
+      "icon": "◌"
+    },
+    "cat-grading": {
+      "label": "批改",
+      "labelEn": "Grading",
+      "shape": "rect",
+      "fill": "#b45309",
+      "border": "#b45309",
+      "textColor": "#ffffff",
+      "icon": "▤"
+    },
+    "cat-research": {
+      "label": "科研",
+      "labelEn": "Research",
+      "shape": "rounded",
+      "fill": "#c2410c",
+      "border": "#c2410c",
+      "textColor": "#ffffff",
+      "icon": "◆"
+    },
+    "cat-admin": {
+      "label": "事务",
+      "labelEn": "Admin",
+      "shape": "document",
+      "fill": "#57534e",
+      "border": "#57534e",
+      "textColor": "#ffffff",
+      "icon": "▤"
+    },
+    "day": {
+      "label": "日期",
+      "labelEn": "Day",
+      "shape": "milestone",
+      "fill": "#1f2937",
+      "border": "#111827",
+      "textColor": "#f9fafb",
+      "icon": "▮"
+    }
+  },
+  "nodes": [
+    {
+      "id": "day-mon",
+      "type": "day",
+      "label": "Monday",
+      "x": 0,
+      "y": 0,
+      "w": 132,
+      "h": 56
+    },
+    {
+      "id": "tw-01",
+      "type": "cat-prep",
+      "label": "08:00 · Prepare Linear Algebra lecture",
+      "x": 0,
+      "y": 120,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-02",
+      "type": "cat-lecture",
+      "label": "10:00 · Linear Algebra — lecture 7",
+      "x": 0,
+      "y": 204,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-03",
+      "type": "cat-admin",
+      "label": "13:00 · Course logistics",
+      "x": 0,
+      "y": 288,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-04",
+      "type": "cat-research",
+      "label": "14:30 · Research block",
+      "x": 0,
+      "y": 372,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "day-tue",
+      "type": "day",
+      "label": "Tuesday",
+      "x": 260,
+      "y": 0,
+      "w": 132,
+      "h": 56
+    },
+    {
+      "id": "tw-05",
+      "type": "cat-prep",
+      "label": "09:00 · Prepare Analysis lecture",
+      "x": 260,
+      "y": 120,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-06",
+      "type": "cat-lecture",
+      "label": "11:00 · Real Analysis — lecture 7",
+      "x": 260,
+      "y": 204,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-07",
+      "type": "cat-office",
+      "label": "14:00 · Office hours",
+      "x": 260,
+      "y": 288,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-08",
+      "type": "cat-grading",
+      "label": "16:00 · Grade problem set 3",
+      "x": 260,
+      "y": 372,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "day-wed",
+      "type": "day",
+      "label": "Wednesday",
+      "x": 520,
+      "y": 0,
+      "w": 132,
+      "h": 56
+    },
+    {
+      "id": "tw-09",
+      "type": "cat-grading",
+      "label": "09:00 · Grade problem set 3 (cont.)",
+      "x": 520,
+      "y": 120,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-10",
+      "type": "cat-admin",
+      "label": "11:15 · Feedback to students",
+      "x": 520,
+      "y": 204,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-11",
+      "type": "cat-research",
+      "label": "13:30 · Deep research block",
+      "x": 520,
+      "y": 288,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-12",
+      "type": "cat-admin",
+      "label": "16:30 · Curriculum committee",
+      "x": 520,
+      "y": 372,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "day-thu",
+      "type": "day",
+      "label": "Thursday",
+      "x": 780,
+      "y": 0,
+      "w": 132,
+      "h": 56
+    },
+    {
+      "id": "tw-13",
+      "type": "cat-prep",
+      "label": "08:00 · Prepare problem session",
+      "x": 780,
+      "y": 120,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-14",
+      "type": "cat-lecture",
+      "label": "10:00 · Problem session — Linear Algebra",
+      "x": 780,
+      "y": 204,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-15",
+      "type": "cat-office",
+      "label": "13:00 · Office hours",
+      "x": 780,
+      "y": 288,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-16",
+      "type": "cat-research",
+      "label": "15:00 · Reading group prep",
+      "x": 780,
+      "y": 372,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "day-fri",
+      "type": "day",
+      "label": "Friday",
+      "x": 1040,
+      "y": 0,
+      "w": 132,
+      "h": 56
+    },
+    {
+      "id": "tw-17",
+      "type": "cat-research",
+      "label": "09:00 · Writing block",
+      "x": 1040,
+      "y": 120,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-18",
+      "type": "cat-admin",
+      "label": "11:15 · Week review and next-term planning",
+      "x": 1040,
+      "y": 204,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-19",
+      "type": "cat-lecture",
+      "label": "14:00 · Tutorial — master students",
+      "x": 1040,
+      "y": 288,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "tw-20",
+      "type": "cat-office",
+      "label": "16:00 · Open door hour",
+      "x": 1040,
+      "y": 372,
+      "w": 220,
+      "h": 68
+    },
+    {
+      "id": "day-sat",
+      "type": "day",
+      "label": "Saturday",
+      "x": 1300,
+      "y": 0,
+      "w": 132,
+      "h": 56
+    },
+    {
+      "id": "tw-21",
+      "type": "cat-research",
+      "label": "10:00 · Uninterrupted writing",
+      "x": 1300,
+      "y": 120,
+      "w": 220,
+      "h": 68
+    }
+  ],
+  "edges": [
+    {
+      "id": "e001",
+      "source": "day-mon",
+      "target": "tw-01",
+      "type": "flow"
+    },
+    {
+      "id": "e002",
+      "source": "tw-01",
+      "target": "tw-02",
+      "type": "flow"
+    },
+    {
+      "id": "e003",
+      "source": "tw-02",
+      "target": "tw-03",
+      "type": "flow"
+    },
+    {
+      "id": "e004",
+      "source": "tw-03",
+      "target": "tw-04",
+      "type": "flow"
+    },
+    {
+      "id": "e005",
+      "source": "day-tue",
+      "target": "tw-05",
+      "type": "flow"
+    },
+    {
+      "id": "e006",
+      "source": "tw-05",
+      "target": "tw-06",
+      "type": "flow"
+    },
+    {
+      "id": "e007",
+      "source": "tw-06",
+      "target": "tw-07",
+      "type": "flow"
+    },
+    {
+      "id": "e008",
+      "source": "tw-07",
+      "target": "tw-08",
+      "type": "flow"
+    },
+    {
+      "id": "e009",
+      "source": "day-wed",
+      "target": "tw-09",
+      "type": "flow"
+    },
+    {
+      "id": "e010",
+      "source": "tw-09",
+      "target": "tw-10",
+      "type": "flow"
+    },
+    {
+      "id": "e011",
+      "source": "tw-10",
+      "target": "tw-11",
+      "type": "flow"
+    },
+    {
+      "id": "e012",
+      "source": "tw-11",
+      "target": "tw-12",
+      "type": "flow"
+    },
+    {
+      "id": "e013",
+      "source": "day-thu",
+      "target": "tw-13",
+      "type": "flow"
+    },
+    {
+      "id": "e014",
+      "source": "tw-13",
+      "target": "tw-14",
+      "type": "flow"
+    },
+    {
+      "id": "e015",
+      "source": "tw-14",
+      "target": "tw-15",
+      "type": "flow"
+    },
+    {
+      "id": "e016",
+      "source": "tw-15",
+      "target": "tw-16",
+      "type": "flow"
+    },
+    {
+      "id": "e017",
+      "source": "day-fri",
+      "target": "tw-17",
+      "type": "flow"
+    },
+    {
+      "id": "e018",
+      "source": "tw-17",
+      "target": "tw-18",
+      "type": "flow"
+    },
+    {
+      "id": "e019",
+      "source": "tw-18",
+      "target": "tw-19",
+      "type": "flow"
+    },
+    {
+      "id": "e020",
+      "source": "tw-19",
+      "target": "tw-20",
+      "type": "flow"
+    },
+    {
+      "id": "e021",
+      "source": "day-sat",
+      "target": "tw-21",
+      "type": "flow"
+    },
+    {
+      "id": "e022",
+      "source": "tw-01",
+      "target": "tw-02",
+      "type": "depends-on",
+      "label": "the lecture follows its preparation"
+    },
+    {
+      "id": "e023",
+      "source": "tw-05",
+      "target": "tw-06",
+      "type": "depends-on",
+      "label": "the second lecture follows its preparation"
+    },
+    {
+      "id": "e024",
+      "source": "tw-08",
+      "target": "tw-09",
+      "type": "depends-on",
+      "label": "grading continues the next morning"
+    },
+    {
+      "id": "e025",
+      "source": "tw-09",
+      "target": "tw-10",
+      "type": "depends-on",
+      "label": "feedback goes out once grading is finished"
+    }
+  ],
+  "groups": [
+    {
+      "id": "g-mon",
+      "label": "Monday",
+      "color": "#2563eb",
+      "members": [
+        "day-mon",
+        "tw-01",
+        "tw-02",
+        "tw-03",
+        "tw-04"
+      ]
+    },
+    {
+      "id": "g-tue",
+      "label": "Tuesday",
+      "color": "#0d9488",
+      "members": [
+        "day-tue",
+        "tw-05",
+        "tw-06",
+        "tw-07",
+        "tw-08"
+      ]
+    },
+    {
+      "id": "g-wed",
+      "label": "Wednesday",
+      "color": "#7c3aed",
+      "members": [
+        "day-wed",
+        "tw-09",
+        "tw-10",
+        "tw-11",
+        "tw-12"
+      ]
+    },
+    {
+      "id": "g-thu",
+      "label": "Thursday",
+      "color": "#c2410c",
+      "members": [
+        "day-thu",
+        "tw-13",
+        "tw-14",
+        "tw-15",
+        "tw-16"
+      ]
+    },
+    {
+      "id": "g-fri",
+      "label": "Friday",
+      "color": "#b45309",
+      "members": [
+        "day-fri",
+        "tw-17",
+        "tw-18",
+        "tw-19",
+        "tw-20"
+      ]
+    },
+    {
+      "id": "g-sat",
+      "label": "Saturday",
+      "color": "#0369a1",
+      "members": [
+        "day-sat",
+        "tw-21"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+[
+  {
+    "nodeId": "day-mon",
+    "content": "Monday — 6 blocks, 7.3 h scheduled.\n- First block: 07:30 · Morning routine\n- Last block: 20:30 · Plan tomorrow\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Rest 0.8 h, Deep work 2.5 h, Admin 1.0 h, Reading 1.5 h, Writing 1.5 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #2563eb\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-tue",
+    "content": "Tuesday — 5 blocks, 7.3 h scheduled.\n- First block: 07:30 · Morning routine\n- Last block: 18:00 · Supervision: doctoral student\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Rest 0.8 h, Deep work 3.0 h, Meetings 2.0 h, Writing 1.5 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #0d9488\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-wed",
+    "content": "Wednesday — 5 blocks, 6.3 h scheduled.\n- First block: 07:30 · Morning routine\n- Last block: 17:15 · Department meeting\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Rest 0.8 h, Deep work 2.0 h, Reading 0.8 h, Writing 2.0 h, Meetings 0.8 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #7c3aed\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-thu",
+    "content": "Thursday — 5 blocks, 6.5 h scheduled.\n- First block: 07:30 · Morning routine\n- Last block: 17:00 · Grant reporting\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Rest 0.8 h, Deep work 2.5 h, Reading 1.0 h, Writing 1.5 h, Admin 0.8 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #c2410c\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-fri",
+    "content": "Friday — 4 blocks, 6.0 h scheduled.\n- First block: 09:00 · Close the open proof\n- Last block: 17:30 · New preprints\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Deep work 2.0 h, Admin 1.0 h, Meetings 1.5 h, Reading 1.5 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #b45309\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-sat",
+    "content": "Saturday — 2 blocks, 2.5 h scheduled.\n- First block: 09:30 · Long-form reading\n- Last block: 12:30 · Walk\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Reading 1.5 h, Rest 1.0 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #0369a1\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "day-sun",
+    "content": "Sunday — 1 blocks, 1.0 h scheduled.\n- First block: 10:00 · Plan the coming week\n- Last block: 11:00 · Plan the coming week\n- The day is one chain: each block starts when the previous one releases the time\n- Split by category: Admin 1.0 h\n- Everything sits inside the 7:00–22:00 window\n- Day group colour: #15803d\n- Upstream: the previous day's last block\n- Downstream: the next block in this chain\n- Use: a day is a chain, so a slipped block pushes the whole tail — that is what makes it visible here"
+  },
+  {
+    "nodeId": "dw-01",
+    "content": "Monday 07:30–08:15 · Morning routine (0.8 h)\n- Category: Rest\n- Window: 07:30 → 08:15, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-02",
+    "content": "Monday 09:00–11:30 · Derive the N=2 representation (2.5 h)\n- Category: Deep work\n- Window: 09:00 → 11:30, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 150 minutes, 2.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Note: No mail, no meetings. One problem only.\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-03",
+    "content": "Monday 11:30–12:00 · Inbox triage (0.5 h)\n- Category: Admin\n- Window: 11:30 → 12:00, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 30 minutes, 0.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-04",
+    "content": "Monday 13:30–15:00 · Literature block (1.5 h)\n- Category: Reading\n- Window: 13:30 → 15:00, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Note: Two papers, notes into the map.\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-05",
+    "content": "Monday 15:15–16:45 · Manuscript: section 2 (1.5 h)\n- Category: Writing\n- Window: 15:15 → 16:45, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-06",
+    "content": "Monday 20:00–20:30 · Plan tomorrow (0.5 h)\n- Category: Admin\n- Window: 20:00 → 20:30, inside the plan's 7:00–22:00 day\n- Runs inside: Monday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 30 minutes, 0.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-07",
+    "content": "Tuesday 07:30–08:15 · Morning routine (0.8 h)\n- Category: Rest\n- Window: 07:30 → 08:15, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-08",
+    "content": "Tuesday 09:00–12:00 · Symbolic verification run (3.0 h)\n- Category: Deep work\n- Window: 09:00 → 12:00, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 180 minutes, 3.0 h\n- Blocked by: dw-08 (the verification run has to finish before the weekend)\n- Blocks: nothing downstream\n- Note: Keep the script and the log together.\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-09",
+    "content": "Tuesday 13:30–14:30 · Group seminar (1.0 h)\n- Category: Meetings\n- Window: 13:30 → 14:30, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 60 minutes, 1.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-10",
+    "content": "Tuesday 15:00–16:30 · Manuscript: figure captions (1.5 h)\n- Category: Writing\n- Window: 15:00 → 16:30, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-11",
+    "content": "Tuesday 17:00–18:00 · Supervision: doctoral student (1.0 h)\n- Category: Meetings\n- Window: 17:00 → 18:00, inside the plan's 7:00–22:00 day\n- Runs inside: Tuesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 60 minutes, 1.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-12",
+    "content": "Wednesday 07:30–08:15 · Morning routine (0.8 h)\n- Category: Rest\n- Window: 07:30 → 08:15, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-13",
+    "content": "Wednesday 09:00–11:00 · Draft section 3 (2.0 h)\n- Category: Deep work\n- Window: 09:00 → 11:00, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 120 minutes, 2.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-14",
+    "content": "Wednesday 11:15–12:00 · Referee reports (0.8 h)\n- Category: Reading\n- Window: 11:15 → 12:00, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-15",
+    "content": "Wednesday 14:00–16:00 · Writing sprint (2.0 h)\n- Category: Writing\n- Window: 14:00 → 16:00, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 120 minutes, 2.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Note: Timer on, chat off.\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-16",
+    "content": "Wednesday 16:30–17:15 · Department meeting (0.8 h)\n- Category: Meetings\n- Window: 16:30 → 17:15, inside the plan's 7:00–22:00 day\n- Runs inside: Wednesday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-17",
+    "content": "Thursday 07:30–08:15 · Morning routine (0.8 h)\n- Category: Rest\n- Window: 07:30 → 08:15, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-18",
+    "content": "Thursday 09:00–11:30 · Numerical experiments (2.5 h)\n- Category: Deep work\n- Window: 09:00 → 11:30, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 150 minutes, 2.5 h\n- Blocked by: dw-18 (the experiments set the reading for the following week)\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-19",
+    "content": "Thursday 13:00–14:00 · Journal club (1.0 h)\n- Category: Reading\n- Window: 13:00 → 14:00, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 60 minutes, 1.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-20",
+    "content": "Thursday 14:30–16:00 · Manuscript: revision pass (1.5 h)\n- Category: Writing\n- Window: 14:30 → 16:00, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-21",
+    "content": "Thursday 16:15–17:00 · Grant reporting (0.8 h)\n- Category: Admin\n- Window: 16:15 → 17:00, inside the plan's 7:00–22:00 day\n- Runs inside: Thursday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 45 minutes, 0.8 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-22",
+    "content": "Friday 09:00–11:00 · Close the open proof (2.0 h)\n- Category: Deep work\n- Window: 09:00 → 11:00, inside the plan's 7:00–22:00 day\n- Runs inside: Friday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 120 minutes, 2.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-23",
+    "content": "Friday 11:00–12:00 · Weekly review (1.0 h)\n- Category: Admin\n- Window: 11:00 → 12:00, inside the plan's 7:00–22:00 day\n- Runs inside: Friday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 60 minutes, 1.0 h\n- Blocked by: dw-23 (the weekly review feeds the plan for the next week)\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-24",
+    "content": "Friday 14:00–15:30 · Collaboration call (1.5 h)\n- Category: Meetings\n- Window: 14:00 → 15:30, inside the plan's 7:00–22:00 day\n- Runs inside: Friday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-25",
+    "content": "Friday 16:00–17:30 · New preprints (1.5 h)\n- Category: Reading\n- Window: 16:00 → 17:30, inside the plan's 7:00–22:00 day\n- Runs inside: Friday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: nothing downstream\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-26",
+    "content": "Saturday 09:30–11:00 · Long-form reading (1.5 h)\n- Category: Reading\n- Window: 09:30 → 11:00, inside the plan's 7:00–22:00 day\n- Runs inside: Saturday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 90 minutes, 1.5 h\n- Blocked by: nothing outside its own day chain\n- Blocks: dw-26 (the experiments set the reading for the following week)\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-27",
+    "content": "Saturday 11:30–12:30 · Walk (1.0 h)\n- Category: Rest\n- Window: 11:30 → 12:30, inside the plan's 7:00–22:00 day\n- Runs inside: Saturday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 60 minutes, 1.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: dw-27 (the verification run has to finish before the weekend)\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  },
+  {
+    "nodeId": "dw-28",
+    "content": "Sunday 10:00–11:00 · Plan the coming week (1.0 h)\n- Category: Admin\n- Window: 10:00 → 11:00, inside the plan's 7:00–22:00 day\n- Runs inside: Sunday (grouped with that day on the canvas)\n- Clock order: it follows the previous block of the same day through a flow edge\n- Duration is the real scheduling cost: 60 minutes, 1.0 h\n- Blocked by: nothing outside its own day chain\n- Blocks: dw-28 (the weekly review feeds the plan for the next week)\n- Acceptance: the block is done when its single stated outcome exists, not when the time is up"
+  }
+]

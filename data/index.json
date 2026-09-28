@@ -1,45 +1,136 @@
 {
-  "generatedAt": "2026-09-28T08:19:18.891Z",
-  "generator": "cadence build",
-  "plans": [
-    {
-      "id": "conference-week",
-      "name": "Conference Week",
-      "nameZh": "会议出差周",
-      "desc": "A travel week: flights and transfers around the programme, the talk slot protected, and recovery time booked on the last day.",
-      "descZh": "出差周：航班与转场围绕会议议程安排，留出报告时段的保护时间，最后一天排上恢复时间。",
-      "accent": "#0369a1",
-      "blocks": 26,
-      "hours": 41.1,
-      "categories": 6,
-      "dayStart": 6,
-      "dayEnd": 23
-    },
+  "generatedAt": "2026-09-28T09:48:10.984Z",
+  "generator": "cadence build/snapshot.mjs",
+  "graphs": [
     {
       "id": "deep-work-week",
-      "name": "Deep Work Week",
-      "nameZh": "深度工作周",
-      "desc": "A research week built around two protected blocks a day, with reading, writing and admin kept in their own lanes.",
-      "descZh": "以每天两个受保护的深度工作时段为核心的科研周，阅读、写作与事务各占自己的时段。",
-      "accent": "#c2410c",
-      "blocks": 28,
-      "hours": 36.8,
-      "categories": 6,
-      "dayStart": 7,
-      "dayEnd": 22
+      "name": "Deep Work Week — a week as a dependency map",
+      "description": "A research week built around two protected blocks a day, with reading, writing and admin kept in their own lanes.",
+      "revision": 1,
+      "nodes": 35,
+      "edges": 31,
+      "groups": 7,
+      "notes": 35,
+      "valid": true,
+      "warnings": 0,
+      "updatedAt": "2026-09-28T09:48:10.984Z",
+      "bytes": 50414
     },
     {
       "id": "teaching-week",
-      "name": "Teaching Week",
-      "nameZh": "教学周",
-      "desc": "A term week where two lectures anchor everything else: preparation sits the day before, office hours and grading sit the day after.",
-      "descZh": "以两门课为锚点的学期周：备课排在前一天，答疑与批改排在后一天。",
-      "accent": "#7c3aed",
-      "blocks": 21,
-      "hours": 31.8,
-      "categories": 6,
-      "dayStart": 7,
-      "dayEnd": 22
+      "name": "Teaching Week — a week as a dependency map",
+      "description": "A term week where two lectures anchor everything else: preparation sits the day before, office hours and grading sit the day after.",
+      "revision": 1,
+      "nodes": 27,
+      "edges": 25,
+      "groups": 6,
+      "notes": 27,
+      "valid": true,
+      "warnings": 0,
+      "updatedAt": "2026-09-28T09:48:10.984Z",
+      "bytes": 40896
+    },
+    {
+      "id": "conference-week",
+      "name": "Conference Week — a week as a dependency map",
+      "description": "A travel week: flights and transfers around the programme, the talk slot protected, and recovery time booked on the last day.",
+      "revision": 1,
+      "nodes": 33,
+      "edges": 31,
+      "groups": 7,
+      "notes": 33,
+      "valid": true,
+      "warnings": 0,
+      "updatedAt": "2026-09-28T09:48:10.984Z",
+      "bytes": 48805
     }
-  ]
+  ],
+  "tree": {
+    "folders": [
+      "Schedules",
+      "Schedules/Week plans"
+    ],
+    "assign": {
+      "deep-work-week": "Schedules/Week plans",
+      "teaching-week": "Schedules/Week plans",
+      "conference-week": "Schedules/Week plans"
+    }
+  },
+  "templates": {
+    "en": [
+      {
+        "id": "blank",
+        "name": "Blank canvas",
+        "desc": "Start from scratch — every kind of graph grows from here."
+      },
+      {
+        "id": "theorem-deps",
+        "name": "Theorem dependencies",
+        "desc": "Definition → lemma → proposition → theorem proof chain inside one math paper, with external citations."
+      },
+      {
+        "id": "paper-map",
+        "name": "Paper relation map",
+        "desc": "How papers extend, cite, generalize or contradict each other."
+      },
+      {
+        "id": "task-raci",
+        "name": "Task RACI",
+        "desc": "Task × role matrix: who is responsible, accountable, consulted and informed."
+      },
+      {
+        "id": "org-structure",
+        "name": "Org structure",
+        "desc": "Departments, reporting lines and headcount."
+      },
+      {
+        "id": "research-collab",
+        "name": "Research collaboration",
+        "desc": "PI, postdocs and students, with the dependencies between their outputs."
+      },
+      {
+        "id": "conversation-map",
+        "name": "Conversation map",
+        "desc": "How sessions and topics follow, answer and merge into each other."
+      }
+    ],
+    "zh": [
+      {
+        "id": "blank",
+        "name": "空白图",
+        "desc": "从零开始，一切关系图都从这里长出来。"
+      },
+      {
+        "id": "theorem-deps",
+        "name": "定理依赖分析",
+        "desc": "单篇数学文章内部的定义 → 引理 → 命题 → 定理依赖链，附外部文献引用。"
+      },
+      {
+        "id": "paper-map",
+        "name": "论文关联分析",
+        "desc": "多篇论文之间的继承、引用、推广与矛盾关系。"
+      },
+      {
+        "id": "task-raci",
+        "name": "项目任务分工 (RACI)",
+        "desc": "任务 × 角色矩阵：R 执行 / A 问责 / C 咨询 / I 知会。"
+      },
+      {
+        "id": "org-structure",
+        "name": "公司运营架构",
+        "desc": "部门层级与汇报线，支持按部门分组着色。"
+      },
+      {
+        "id": "research-collab",
+        "name": "科研项目合作分工",
+        "desc": "PI / 博士后 / 博士生分工与成果产出依赖。"
+      },
+      {
+        "id": "conversation-map",
+        "name": "对话关联分析",
+        "desc": "多个会话/话题之间的接续、回应与汇聚关系。"
+      }
+    ]
+  },
+  "crosslinks": []
 }
