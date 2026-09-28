@@ -1,9 +1,11 @@
 # keep the repo on LF so our own files mean the same thing everywhere
 * text=auto eol=lf
 
-# OmniFlow's client and modules are vendored verbatim — never normalise them,
-# so "unmodified" stays literally true and the deployed bytes match the local ones.
+# OmniFlow's client, the page that hosts it, and the vendored libs/fonts are
+# shipped verbatim — never normalise them, so "unmodified" stays literally true
+# and the deployed bytes match the local ones.
 assets/app.js        -text
 assets/app.css       -text
+map.html             -text
 assets/lib/*.js      -text
 vendor/**            -text
