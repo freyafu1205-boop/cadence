@@ -1,0 +1,45 @@
+{
+  "generatedAt": "2026-09-28T08:19:18.891Z",
+  "generator": "cadence build",
+  "plans": [
+    {
+      "id": "conference-week",
+      "name": "Conference Week",
+      "nameZh": "会议出差周",
+      "desc": "A travel week: flights and transfers around the programme, the talk slot protected, and recovery time booked on the last day.",
+      "descZh": "出差周：航班与转场围绕会议议程安排，留出报告时段的保护时间，最后一天排上恢复时间。",
+      "accent": "#0369a1",
+      "blocks": 26,
+      "hours": 41.1,
+      "categories": 6,
+      "dayStart": 6,
+      "dayEnd": 23
+    },
+    {
+      "id": "deep-work-week",
+      "name": "Deep Work Week",
+      "nameZh": "深度工作周",
+      "desc": "A research week built around two protected blocks a day, with reading, writing and admin kept in their own lanes.",
+      "descZh": "以每天两个受保护的深度工作时段为核心的科研周，阅读、写作与事务各占自己的时段。",
+      "accent": "#c2410c",
+      "blocks": 28,
+      "hours": 36.8,
+      "categories": 6,
+      "dayStart": 7,
+      "dayEnd": 22
+    },
+    {
+      "id": "teaching-week",
+      "name": "Teaching Week",
+      "nameZh": "教学周",
+      "desc": "A term week where two lectures anchor everything else: preparation sits the day before, office hours and grading sit the day after.",
+      "descZh": "以两门课为锚点的学期周：备课排在前一天，答疑与批改排在后一天。",
+      "accent": "#7c3aed",
+      "blocks": 21,
+      "hours": 31.8,
+      "categories": 6,
+      "dayStart": 7,
+      "dayEnd": 22
+    }
+  ]
+}

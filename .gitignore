@@ -1,0 +1,6 @@
+# nothing here needs ignoring at build time — the site is plain static files.
+# these are just the usual local noise.
+.DS_Store
+Thumbs.db
+*.log
+node_modules/

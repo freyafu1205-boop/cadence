@@ -1,0 +1,46 @@
+{
+  "id": "teaching-week",
+  "name": "Teaching Week",
+  "nameZh": "教学周",
+  "desc": "A term week where two lectures anchor everything else: preparation sits the day before, office hours and grading sit the day after.",
+  "descZh": "以两门课为锚点的学期周：备课排在前一天，答疑与批改排在后一天。",
+  "accent": "#7c3aed",
+  "dayStart": 7,
+  "dayEnd": 22,
+  "categories": [
+    { "id": "lecture",  "name": "Lectures",     "nameZh": "授课",   "color": "#7c3aed" },
+    { "id": "prep",     "name": "Preparation",  "nameZh": "备课",   "color": "#0f766e" },
+    { "id": "office",   "name": "Office hours", "nameZh": "答疑",   "color": "#0369a1" },
+    { "id": "grading",  "name": "Grading",      "nameZh": "批改",   "color": "#b45309" },
+    { "id": "research", "name": "Research",     "nameZh": "科研",   "color": "#c2410c" },
+    { "id": "admin",    "name": "Admin",        "nameZh": "事务",   "color": "#57534e" }
+  ],
+  "events": [
+    { "id": "tw-01", "day": "mon", "start": "08:00", "end": "09:30", "category": "prep",     "title": "Prepare Linear Algebra lecture", "titleZh": "准备线性代数课", "note": "Slides + two worked examples.", "noteZh": "课件加两个例题。" },
+    { "id": "tw-02", "day": "mon", "start": "10:00", "end": "11:30", "category": "lecture",  "title": "Linear Algebra — lecture 7",      "titleZh": "线性代数 · 第 7 讲" },
+    { "id": "tw-03", "day": "mon", "start": "13:00", "end": "14:00", "category": "admin",    "title": "Course logistics",                "titleZh": "课程事务" },
+    { "id": "tw-04", "day": "mon", "start": "14:30", "end": "16:30", "category": "research", "title": "Research block",                  "titleZh": "科研时段" },
+
+    { "id": "tw-05", "day": "tue", "start": "09:00", "end": "10:30", "category": "prep",     "title": "Prepare Analysis lecture",       "titleZh": "准备分析课" },
+    { "id": "tw-06", "day": "tue", "start": "11:00", "end": "12:30", "category": "lecture",  "title": "Real Analysis — lecture 7",       "titleZh": "实分析 · 第 7 讲" },
+    { "id": "tw-07", "day": "tue", "start": "14:00", "end": "15:30", "category": "office",   "title": "Office hours",                    "titleZh": "答疑时间" },
+    { "id": "tw-08", "day": "tue", "start": "16:00", "end": "17:30", "category": "grading",  "title": "Grade problem set 3",             "titleZh": "批改作业 3" },
+
+    { "id": "tw-09", "day": "wed", "start": "09:00", "end": "11:00", "category": "grading",  "title": "Grade problem set 3 (cont.)",     "titleZh": "批改作业 3（续）" },
+    { "id": "tw-10", "day": "wed", "start": "11:15", "end": "12:00", "category": "admin",    "title": "Feedback to students",            "titleZh": "反馈学生" },
+    { "id": "tw-11", "day": "wed", "start": "13:30", "end": "16:00", "category": "research", "title": "Deep research block",             "titleZh": "深度科研时段" },
+    { "id": "tw-12", "day": "wed", "start": "16:30", "end": "17:15", "category": "admin",    "title": "Curriculum committee",            "titleZh": "课程委员会" },
+
+    { "id": "tw-13", "day": "thu", "start": "08:00", "end": "09:30", "category": "prep",     "title": "Prepare problem session",         "titleZh": "准备习题课" },
+    { "id": "tw-14", "day": "thu", "start": "10:00", "end": "11:30", "category": "lecture",  "title": "Problem session — Linear Algebra", "titleZh": "习题课 · 线性代数" },
+    { "id": "tw-15", "day": "thu", "start": "13:00", "end": "14:30", "category": "office",   "title": "Office hours",                    "titleZh": "答疑时间" },
+    { "id": "tw-16", "day": "thu", "start": "15:00", "end": "17:00", "category": "research", "title": "Reading group prep",              "titleZh": "文献组会准备" },
+
+    { "id": "tw-17", "day": "fri", "start": "09:00", "end": "11:00", "category": "research", "title": "Writing block",                   "titleZh": "写作时段" },
+    { "id": "tw-18", "day": "fri", "start": "11:15", "end": "12:00", "category": "admin",    "title": "Week review and next-term planning", "titleZh": "周复盘与下学期规划" },
+    { "id": "tw-19", "day": "fri", "start": "14:00", "end": "15:30", "category": "lecture",  "title": "Tutorial — master students",      "titleZh": "研究生辅导" },
+    { "id": "tw-20", "day": "fri", "start": "16:00", "end": "17:00", "category": "office",   "title": "Open door hour",                  "titleZh": "开放答疑" },
+
+    { "id": "tw-21", "day": "sat", "start": "10:00", "end": "12:00", "category": "research", "title": "Uninterrupted writing",           "titleZh": "不受打扰的写作" }
+  ]
+}

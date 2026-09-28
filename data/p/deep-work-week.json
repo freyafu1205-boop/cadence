@@ -1,0 +1,54 @@
+{
+  "id": "deep-work-week",
+  "name": "Deep Work Week",
+  "nameZh": "深度工作周",
+  "desc": "A research week built around two protected blocks a day, with reading, writing and admin kept in their own lanes.",
+  "descZh": "以每天两个受保护的深度工作时段为核心的科研周，阅读、写作与事务各占自己的时段。",
+  "accent": "#c2410c",
+  "dayStart": 7,
+  "dayEnd": 22,
+  "categories": [
+    { "id": "focus",   "name": "Deep work", "nameZh": "深度工作", "color": "#c2410c" },
+    { "id": "writing", "name": "Writing",   "nameZh": "写作",     "color": "#0f766e" },
+    { "id": "reading", "name": "Reading",   "nameZh": "阅读",     "color": "#6d28d9" },
+    { "id": "meeting", "name": "Meetings",  "nameZh": "会议",     "color": "#0369a1" },
+    { "id": "admin",   "name": "Admin",     "nameZh": "事务",     "color": "#57534e" },
+    { "id": "rest",    "name": "Rest",      "nameZh": "休息",     "color": "#15803d" }
+  ],
+  "events": [
+    { "id": "dw-01", "day": "mon", "start": "07:30", "end": "08:15", "category": "rest",    "title": "Morning routine",              "titleZh": "晨间例行" },
+    { "id": "dw-02", "day": "mon", "start": "09:00", "end": "11:30", "category": "focus",   "title": "Derive the N=2 representation", "titleZh": "推导 N=2 表示", "note": "No mail, no meetings. One problem only.", "noteZh": "不开邮件、不开会，只做一件事。" },
+    { "id": "dw-03", "day": "mon", "start": "11:30", "end": "12:00", "category": "admin",   "title": "Inbox triage",                 "titleZh": "邮件清理" },
+    { "id": "dw-04", "day": "mon", "start": "13:30", "end": "15:00", "category": "reading", "title": "Literature block",             "titleZh": "文献阅读时段", "note": "Two papers, notes into the map.", "noteZh": "两篇论文，笔记直接进流程图。" },
+    { "id": "dw-05", "day": "mon", "start": "15:15", "end": "16:45", "category": "writing", "title": "Manuscript: section 2",        "titleZh": "写稿：第 2 节" },
+    { "id": "dw-06", "day": "mon", "start": "20:00", "end": "20:30", "category": "admin",   "title": "Plan tomorrow",                "titleZh": "安排明天" },
+
+    { "id": "dw-07", "day": "tue", "start": "07:30", "end": "08:15", "category": "rest",    "title": "Morning routine",              "titleZh": "晨间例行" },
+    { "id": "dw-08", "day": "tue", "start": "09:00", "end": "12:00", "category": "focus",   "title": "Symbolic verification run",    "titleZh": "符号验证", "note": "Keep the script and the log together.", "noteZh": "脚本与日志放在一起。" },
+    { "id": "dw-09", "day": "tue", "start": "13:30", "end": "14:30", "category": "meeting", "title": "Group seminar",                "titleZh": "组会" },
+    { "id": "dw-10", "day": "tue", "start": "15:00", "end": "16:30", "category": "writing", "title": "Manuscript: figure captions",  "titleZh": "写稿：图注" },
+    { "id": "dw-11", "day": "tue", "start": "17:00", "end": "18:00", "category": "meeting", "title": "Supervision: doctoral student", "titleZh": "指导博士生" },
+
+    { "id": "dw-12", "day": "wed", "start": "07:30", "end": "08:15", "category": "rest",    "title": "Morning routine",              "titleZh": "晨间例行" },
+    { "id": "dw-13", "day": "wed", "start": "09:00", "end": "11:00", "category": "focus",   "title": "Draft section 3",              "titleZh": "起草第 3 节" },
+    { "id": "dw-14", "day": "wed", "start": "11:15", "end": "12:00", "category": "reading", "title": "Referee reports",              "titleZh": "审稿意见" },
+    { "id": "dw-15", "day": "wed", "start": "14:00", "end": "16:00", "category": "writing", "title": "Writing sprint",               "titleZh": "写作冲刺", "note": "Timer on, chat off.", "noteZh": "开计时器，关聊天。" },
+    { "id": "dw-16", "day": "wed", "start": "16:30", "end": "17:15", "category": "meeting", "title": "Department meeting",           "titleZh": "系务会" },
+
+    { "id": "dw-17", "day": "thu", "start": "07:30", "end": "08:15", "category": "rest",    "title": "Morning routine",              "titleZh": "晨间例行" },
+    { "id": "dw-18", "day": "thu", "start": "09:00", "end": "11:30", "category": "focus",   "title": "Numerical experiments",        "titleZh": "数值实验" },
+    { "id": "dw-19", "day": "thu", "start": "13:00", "end": "14:00", "category": "reading", "title": "Journal club",                 "titleZh": "文献研讨会" },
+    { "id": "dw-20", "day": "thu", "start": "14:30", "end": "16:00", "category": "writing", "title": "Manuscript: revision pass",    "titleZh": "写稿：通改一遍" },
+    { "id": "dw-21", "day": "thu", "start": "16:15", "end": "17:00", "category": "admin",   "title": "Grant reporting",              "titleZh": "项目结题材料" },
+
+    { "id": "dw-22", "day": "fri", "start": "09:00", "end": "11:00", "category": "focus",   "title": "Close the open proof",         "titleZh": "收尾未完成的证明" },
+    { "id": "dw-23", "day": "fri", "start": "11:00", "end": "12:00", "category": "admin",   "title": "Weekly review",                "titleZh": "周复盘", "done": true },
+    { "id": "dw-24", "day": "fri", "start": "14:00", "end": "15:30", "category": "meeting", "title": "Collaboration call",           "titleZh": "合作通话" },
+    { "id": "dw-25", "day": "fri", "start": "16:00", "end": "17:30", "category": "reading", "title": "New preprints",                "titleZh": "新预印本" },
+
+    { "id": "dw-26", "day": "sat", "start": "09:30", "end": "11:00", "category": "reading", "title": "Long-form reading",            "titleZh": "长文阅读" },
+    { "id": "dw-27", "day": "sat", "start": "11:30", "end": "12:30", "category": "rest",    "title": "Walk",                         "titleZh": "散步" },
+
+    { "id": "dw-28", "day": "sun", "start": "10:00", "end": "11:00", "category": "admin",   "title": "Plan the coming week",         "titleZh": "规划下一周" }
+  ]
+}

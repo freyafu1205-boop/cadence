@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cadence — static schedule planner</title>
+<meta name="description" content="Cadence is a static, two-page schedule planner. A weekly grid you can edit, snapshots stored as plain JSON, and no backend at all.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf9f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23c2410c'/%3E%3Cg stroke='%23fff' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M9 11h14M9 16h9M9 21h12'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/app.css">
+<script>
+/* Apply the stored preferences before the first paint so there is no flash.
+   With theme = auto nothing is written, and the CSS media query takes over —
+   which is why the site follows the browser by default. */
+(function () {
+  try {
+    var t = localStorage.getItem("cadence.theme");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    var w = localStorage.getItem("cadence.width");
+    document.documentElement.setAttribute("data-width", w === "focus" ? "focus" : "fluid");
+  } catch (e) {
+    document.documentElement.setAttribute("data-width", "fluid");
+  }
+})();
+</script>
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="dot" aria-hidden="true"></span>
+      Cadence
+      <small data-i18n="ui.brand.tag"></small>
+    </a>
+
+    <span class="spacer"></span>
+
+    <div class="seg" data-seg="theme" role="group" data-i18n-aria="ui.theme">
+      <button type="button" data-value="auto"  aria-pressed="true" data-i18n="ui.auto"></button>
+      <button type="button" data-value="light" aria-pressed="false" data-i18n="ui.light"></button>
+      <button type="button" data-value="dark"  aria-pressed="false" data-i18n="ui.dark"></button>
+    </div>
+
+    <div class="seg" data-seg="width" role="group" data-i18n-aria="ui.width">
+      <button type="button" data-value="fluid" aria-pressed="true" data-i18n="ui.fluid"></button>
+      <button type="button" data-value="focus" aria-pressed="false" data-i18n="ui.focus"></button>
+    </div>
+
+    <button type="button" class="btn" data-lang-toggle data-i18n="ui.lang.switch"></button>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <p class="eyebrow" data-i18n="home.eyebrow"></p>
+      <h1 data-i18n="home.title"></h1>
+      <p class="lede" data-i18n="home.lede"></p>
+    </section>
+
+    <div class="section-head">
+      <h2 data-i18n="home.plans"></h2>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div class="cards" id="plans"></div>
+
+    <div class="section-head">
+      <h2 data-i18n="home.how"></h2>
+      <span class="count" id="updated"></span>
+    </div>
+    <p class="lede" style="padding-bottom:56px" data-i18n="home.how.body"></p>
+  </main>
+
+  <footer class="topbar" style="position:static;border-top:1px solid var(--line);border-bottom:0">
+    <span data-i18n="home.credits"></span>
+    <span class="spacer"></span>
+    <span class="badge" data-i18n="ui.offline"></span>
+  </footer>
+
+</div>
+
+<script src="assets/i18n.js"></script>
+<script src="assets/ui.js"></script>
+<script src="assets/home.js"></script>
+</body>
+</html>
