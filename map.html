@@ -232,6 +232,54 @@
     border-radius:999px;padding:1px 7px;cursor:pointer;opacity:.9}
 </style>
 
+<script>
+/* The Studio ships with "⚡ smooth mode" (its canvas rendering surface) OFF:
+ * const CV = { on: false, ... }. This site wants it ON by default — a card map of
+ * this size pans and zooms noticeably better on the canvas surface, and the client's
+ * own test asserts the canvas only paints in that mode, so there is no dual-surface
+ * risk. The client stays untouched: this only presses its button after boot, and it
+ * stops pressing the moment the visitor turns smooth mode off themselves. */
+(function () {
+  var KEY = "cadence.smooth";          // "on" | "off"; unset means on
+  var programmatic = false;
+  var started = Date.now();
+
+  function wantOn() {
+    try { return (localStorage.getItem(KEY) || "on") === "on"; } catch (e) { return true; }
+  }
+
+  function tick() {
+    var btn = document.getElementById("btnCanvas");
+    if (!btn) { if (Date.now() - started < 8000) setTimeout(tick, 200); return; }
+
+    if (!btn._cadBound) {
+      btn._cadBound = true;
+      // Record only a deliberate choice; our own presses are flagged.
+      btn.addEventListener("click", function () {
+        if (programmatic) return;
+        try {
+          localStorage.setItem(KEY, btn.getAttribute("aria-pressed") === "true" ? "on" : "off");
+        } catch (e) { /* private mode: the default simply reapplies next load */ }
+      });
+    }
+
+    var on = btn.getAttribute("aria-pressed") === "true";
+    if (wantOn() !== on) {
+      programmatic = true;
+      btn.click();                       // no-op until app.js has bound its handler
+      programmatic = false;
+      on = btn.getAttribute("aria-pressed") === "true";
+    }
+    if (wantOn() === on) return;         // settled — stop polling
+    if (Date.now() - started < 8000) setTimeout(tick, 200);
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", tick);
+  else tick();
+  setTimeout(tick, 1000);
+})();
+</script>
+
 <div id="cad-bar">
   <a href="index.html">&#8592; all plans</a>
   <span class="sep">|</span>

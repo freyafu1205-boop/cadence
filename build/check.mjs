@@ -81,6 +81,18 @@ for (const v of ["/vendor/katex/katex.min.css", "/vendor/katex/katex.min.js"]) {
 if (!existsSync(join(root, "vendor/katex/fonts"))) fail("vendor/", "katex fonts are missing");
 if (!map.includes('id="canvasWrap"')) fail("map.html", "canvasWrap is gone — the snapshot badge would never mount");
 if (!map.includes("cad-bar")) fail("map.html", "the snapshot badge is missing");
+
+/* The client defaults \u26a1 smooth mode OFF; this site turns it on, and the visitor can
+ * turn it back off. Guard both halves so a future edit cannot silently drop either. */
+if (!map.includes("cadence.smooth")) {
+  fail("map.html", "the smooth-mode default is gone \u2014 maps will open in DOM mode");
+}
+if (!/btn\.getAttribute\("aria-pressed"\) === "true"\s*\?\s*"on"\s*:\s*"off"/.test(map)) {
+  fail("map.html", "smooth mode is no longer recorded per visitor \u2014 an explicit choice would be lost");
+}
+if (!map.includes("btnCanvas")) {
+  fail("map.html", "the Studio's smooth-mode button (btnCanvas) is not referenced");
+}
 if (!/window\.Cadence/.test(api)) fail("static-api.js", "window.Cadence (the badge API) is not exposed");
 
 /* ----------------------------------------------- 4 · the publish list agrees */

@@ -38,6 +38,19 @@ the vault, then computes validation and analysis with OmniFlow's own browser-saf
 which are already vendored under `assets/lib/`. Nothing has to be re-authored for the web,
 and no OmniFlow vault is needed to *rebuild* the site from what is committed.
 
+## What a visitor gets on opening a map
+
+| | Default | Notes |
+| --- | --- | --- |
+| Smooth mode | **on** | the Studio ships its canvas rendering surface off (\`const CV = { on: false }\` is the client). \`map.html\` presses the client’s own button after boot, so a map of this size pans and zooms on the canvas surface. A visitor who turns it off keeps it off — the choice is stored under \`cadence.smooth\`. The client itself stays untouched. |
+| Language | **English** | \`of-lang\` is seeded to \`en\` because the client otherwise hard-defaults to Chinese. The Studio’s own toggle takes over from there, and the gallery’s 中文 button writes the same key. |
+| Theme | **follows the browser** | see below |
+| Your edits | kept in your browser | the published snapshot is read-only |
+
+The gallery copy is deliberately content-agnostic: it describes *what the site is for* (maps of
+plans, processes and arrangements, published so anyone can read them), not the one map that
+happens to be published today. Individual maps carry their own title and description.
+
 ## How it works without a server
 
 `of studio` normally serves the client over an HTTP API. Here the client is untouched and

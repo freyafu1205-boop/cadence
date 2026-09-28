@@ -97,6 +97,8 @@ h1{font-size:clamp(34px,6.4vw,74px);max-width:17ch;letter-spacing:-.038em}
 .note code{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);padding:1px 6px;
   border-radius:5px;border:1px solid var(--line)}
 
+footer a.credit{color:var(--dim);text-decoration:none;border-bottom:1px solid var(--line-2);transition:color .15s,border-color .15s}
+footer a.credit:hover{color:var(--ink);border-bottom-color:var(--ink)}
 footer{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:22px var(--pad) 34px;
   border-top:1px solid var(--line);font-size:12.5px;color:var(--faint)}
 .tag{font-family:var(--mono);font-size:11.5px;padding:3px 9px;border:1px solid var(--line-2);
@@ -161,6 +163,9 @@ footer{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:22px 
 
 <footer>
   <span data-i18n="foot1"></span>
+  <a class="credit" href="https://github.com/kanghelyu/omni-flow" target="_blank" rel="noopener noreferrer">
+    <span data-i18n="credit"></span>
+  </a>
   <span class="grow"></span>
   <span class="tag" data-i18n="foot2"></span>
 </footer>
@@ -168,13 +173,13 @@ footer{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:22px 
 <script>
 const DICT = {
   en:{
-    tag:"process map, published",
+    tag:"maps of plans and processes",
     auto:"Auto", light:"Light", dark:"Dark",
-    eyebrow:"OmniFlow · static snapshot",
-    title:"A visa application is a process, not a checklist.",
-    lede:"The full B1/B2 route for a Brazilian professor invited to a short academic exchange — the category decision, the 9-5-6 honorarium rule, the document set, the interview, and every step after approval. Open it and you get the real OmniFlow canvas: pan, zoom, follow any card upstream and downstream, and read the note behind it.",
-    maps:"Maps", loading:"loading the snapshot…",
-    cards:"{n} map in this snapshot",
+    eyebrow:"Interactive maps — read the shape, not the wall of text",
+    title:"Every arrangement, laid out end to end.",
+    lede:"Plans, timelines, procedures, schedules — each one published here as a map instead of a document. So whoever needs to look can follow any step forwards or backwards, see what depends on what, and read the note behind it. No account, no app, any device.",
+    maps:"Published maps", loading:"loading the snapshot…",
+    cards:"{n} available",
     nodes:"{n} nodes", edges:"{n} edges", groups:"{n} groups", notes:"{n} notes",
     open:"Open",
     howTitle:"Unmodified Studio client",
@@ -183,17 +188,18 @@ const DICT = {
     howBody:"Layout, validation, dependency analysis and every export format come from OmniFlow's own browser-safe modules — the same files the server uses. Nothing is reimplemented for the web.",
     howTitle3:"Your edits stay yours",
     howBody:"The snapshot is read-only. Anything you drag or retype is kept in your own browser and never touches the published files, so no visitor ever sees another visitor's changes.",
-    foot1:"Built with OmniFlow (CC BY-NC 4.0) · two static pages, no backend",
+    foot1:"Two static pages, no backend — anyone with the link can read them.",
+    credit:"OmniFlow — engine, Studio client and page structure by kanghelyu (CC BY-NC 4.0)",
     foot2:"GitHub Pages"
   },
   zh:{
-    tag:"流程地图 · 已发布",
+    tag:"把计划画成图",
     auto:"跟随浏览器", light:"浅色", dark:"深色",
-    eyebrow:"OmniFlow · 静态快照",
-    title:"签证申请是一条流程，不是一张清单。",
-    lede:"巴西籍教授受邀赴美短期学术交流的 B1/B2 完整申请路线——类别判定、9-5-6 酬金规则、材料清单、面签，以及获批之后的每一步。打开就是真正的 OmniFlow 画布：可以平移缩放、顺着任意卡片追踪上下游，并读它背后的笔记。",
-    maps:"地图", loading:"正在载入快照…",
-    cards:"本快照共 {n} 张图",
+    eyebrow:"交互式地图 —— 一眼看清，不用通读",
+    title:"每一种安排，都摊开来看。",
+    lede:"计划、时间线、流程、日程——都以图的形式发布在这里，而不是一大篇文档。需要看的人可以顺着任意一步往前或往后追、看清谁依赖谁，并读每一步背后的说明。不需要账号、不用装应用，任何设备都能打开。",
+    maps:"已发布的图", loading:"正在载入快照…",
+    cards:"共 {n} 张",
     nodes:"{n} 个节点", edges:"{n} 条边", groups:"{n} 个分组", notes:"{n} 条笔记",
     open:"打开",
     howTitle:"未修改的 Studio 客户端",
@@ -202,7 +208,8 @@ const DICT = {
     howBody:"布局、校验、依赖分析与全部导出格式，都来自 OmniFlow 自己的浏览器安全模块——和服务端用的是同一批文件，没有为网页重写任何逻辑。",
     howTitle3:"你的改动只属于你",
     howBody:"快照是只读的。你拖动或改写的任何内容只保存在你自己的浏览器里，绝不会写回发布文件，所以任何访客都看不到别人的修改。",
-    foot1:"基于 OmniFlow（CC BY-NC 4.0）构建 · 两个静态页面，无后端",
+    foot1:"两个静态页面，无后端——拿到链接的人都能看。",
+    credit:"OmniFlow —— 引擎、Studio 客户端与页面结构由 kanghelyu 开发（CC BY-NC 4.0）",
     foot2:"GitHub Pages"
   }
 };
