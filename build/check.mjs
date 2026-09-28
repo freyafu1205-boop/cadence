@@ -194,6 +194,16 @@ for (const entry of index.graphs) {
 
 /* ---------------------------------------------------- 5 · gallery linking */
 
+/* The gallery copy is content-agnostic on purpose: it describes what the site is for,
+ * not the map that happens to be published. If a published map's own title leaks into
+ * index.html, the next map will read wrong. */
+for (const entry of index.graphs) {
+  const bare = entry.name.split("\u2014")[0].trim();
+  if (bare.length > 12 && gallery.includes(bare)) {
+    fail("index.html", "the gallery copy names the published map (" + JSON.stringify(bare) + ") — keep the intro generic");
+  }
+}
+
 for (const entry of index.graphs) {
   if (!gallery.includes('map.html#')) fail("index.html", "the gallery does not link to map.html#<id>");
   break;
