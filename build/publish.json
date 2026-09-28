@@ -1,0 +1,6 @@
+{
+  "_comment": "Which OmniFlow graphs this site publishes, in gallery order. Add an id, run `node build/snapshot.mjs`, commit and push — that is the whole publishing step.",
+  "graphs": [
+    "USB1B2VisaProcessBrazili-zdrh"
+  ]
+}

@@ -1,59 +1,29 @@
 {
-  "generatedAt": "2026-09-28T09:48:10.984Z",
+  "generatedAt": "2026-09-28T13:49:43.173Z",
   "generator": "cadence build/snapshot.mjs",
   "graphs": [
     {
-      "id": "deep-work-week",
-      "name": "Deep Work Week — a week as a dependency map",
-      "description": "A research week built around two protected blocks a day, with reading, writing and admin kept in their own lanes.",
-      "revision": 1,
-      "nodes": 35,
-      "edges": 31,
-      "groups": 7,
-      "notes": 35,
-      "valid": true,
-      "warnings": 0,
-      "updatedAt": "2026-09-28T09:48:10.984Z",
-      "bytes": 50414
-    },
-    {
-      "id": "teaching-week",
-      "name": "Teaching Week — a week as a dependency map",
-      "description": "A term week where two lectures anchor everything else: preparation sits the day before, office hours and grading sit the day after.",
-      "revision": 1,
-      "nodes": 27,
+      "id": "USB1B2VisaProcessBrazili-zdrh",
+      "name": "US B1/B2 Visa Process — Brazilian Professor, Short-Term Academic Visit",
+      "description": "End-to-end B1/B2 application route for a Brazilian professor invited to the United States for a short academic exchange (seminars, lectures, laboratory visits). Covers the 9-5-6 honorarium rule, the B1-versus-J1 boundary, the two available application venues (Brazil or Guangzhou, China), the document set, the interview, and post-approval steps through EVUS and entry.",
+      "revision": 2,
+      "nodes": 21,
       "edges": 25,
-      "groups": 6,
-      "notes": 27,
+      "groups": 5,
+      "notes": 21,
       "valid": true,
       "warnings": 0,
-      "updatedAt": "2026-09-28T09:48:10.984Z",
-      "bytes": 40896
-    },
-    {
-      "id": "conference-week",
-      "name": "Conference Week — a week as a dependency map",
-      "description": "A travel week: flights and transfers around the programme, the talk slot protected, and recovery time booked on the last day.",
-      "revision": 1,
-      "nodes": 33,
-      "edges": 31,
-      "groups": 7,
-      "notes": 33,
-      "valid": true,
-      "warnings": 0,
-      "updatedAt": "2026-09-28T09:48:10.984Z",
-      "bytes": 48805
+      "updatedAt": "2026-09-28T08:14:37.587Z",
+      "bytes": 41936
     }
   ],
   "tree": {
     "folders": [
-      "Schedules",
-      "Schedules/Week plans"
+      "Immigration",
+      "Immigration/US-B1B2-academic-visit"
     ],
     "assign": {
-      "deep-work-week": "Schedules/Week plans",
-      "teaching-week": "Schedules/Week plans",
-      "conference-week": "Schedules/Week plans"
+      "USB1B2VisaProcessBrazili-zdrh": "Immigration/US-B1B2-academic-visit"
     }
   },
   "templates": {

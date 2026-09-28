@@ -1,11 +1,11 @@
 # cadence
 
-**OmniFlow maps of weekly plans, served as a static snapshot.**
+**OmniFlow maps, published as a static snapshot.**
 Live: <https://freyafu1205-boop.github.io/cadence/>
 
-A week is a graph, not a list. Every time block in these plans is a node, every
-dependency an edge, so the whole week can be laid out, searched, and analysed for the
-place where it actually breaks.
+Currently published: **US B1/B2 visa process — Brazilian professor, short-term academic
+visit** (21 cards, 25 edges, 5 stages), and nothing else. New maps appear here as they are
+produced with OmniFlow.
 
 ## What it is
 
@@ -14,63 +14,60 @@ Two static pages and no backend, the same shape as
 
 | Path | Purpose |
 | --- | --- |
-| `index.html` | Gallery: one card per map, linking to `map.html#<graphId>` |
+| `index.html` | Gallery: one card per published map, linking to `map.html#<graphId>` |
 | `map.html` | The **unmodified** OmniFlow Studio client, driving a static snapshot |
 | `assets/static-api.js` | Browser-side implementation of the Studio's HTTP API over the snapshot |
-| `assets/lib/*.js` | OmniFlow's own `graph-core` / `graph-analysis` / `group-suggest` / `converters`, shipped verbatim |
-| `assets/app.js`, `assets/app.css` | The OmniFlow Studio client, shipped verbatim |
+| `assets/lib/*.js` | OmniFlow's own `graph-core` / `graph-analysis` / `group-suggest` / `converters`, verbatim |
+| `assets/app.js`, `assets/app.css` | The OmniFlow Studio client, verbatim |
 | `vendor/katex/**` | Vendored KaTeX (the Studio loads it from `/vendor/`) |
 | `data/index.json` | Map list, folder tree, template catalogue (en + zh) |
 | `data/g/<id>.json` | Per-map snapshot: `{ graph, validate, analyze, notes }` |
-| `build/schedule-to-graph.mjs` | Turns `data/plans/<id>.json` into an OmniFlow graph payload |
-| `build/snapshot.mjs` | Builds `data/` — validation and analysis come from OmniFlow's own modules |
-| `build/check.mjs` | Static self-check (see below) |
+| `build/publish.json` | **Which graphs are published** — the one file to edit to add a map |
+| `build/snapshot.mjs` | Vault → `data/` |
+| `build/check.mjs` | Static self-check |
+
+## Publishing a map
+
+1. Produce the graph with OmniFlow — it lands in the local vault (`~/.omni-flow`).
+2. Add its id to `build/publish.json`.
+3. `node build/snapshot.mjs && node build/check.mjs`
+4. Commit and push.
+
+`build/snapshot.mjs` reads the graph's `graph.json`, its `notes/*.md`, and `tree.json` from
+the vault, then computes validation and analysis with OmniFlow's own browser-safe modules —
+which are already vendored under `assets/lib/`. Nothing has to be re-authored for the web,
+and no OmniFlow vault is needed to *rebuild* the site from what is committed.
 
 ## How it works without a server
 
 `of studio` normally serves the client over an HTTP API. Here the client is untouched and
 the API is reimplemented in the browser:
 
-- **Reads** come from a build-time snapshot in `data/`.
+- **Reads** come from the snapshot in `data/`.
 - **Writes** are applied in memory and mirrored to `localStorage` under `cadence.overlay.v1`,
   so an edit survives a reload in *your* browser only. The published snapshot is never
-  modified and visitors never see each other's edits. A small badge appears once your copy
+  modified and no visitor sees another visitor's changes. A badge appears once your copy
   diverges, with a reset button.
 - **Algorithms are the real ones.** Layout, validation, dependency analysis, group
-  suggestions and every export format come from OmniFlow's own browser-safe modules,
-  imported verbatim — nothing is reimplemented by hand.
-- Cross-tab sync (SSE) and anything needing durable shared state is declined with an
-  explicit message rather than failing silently.
+  suggestions and every export come from OmniFlow's own modules, imported verbatim.
+- Cross-tab sync and anything needing durable shared state is declined with an explicit
+  message rather than failing silently.
 
 ## Theme and language
 
 | | Default | Behaviour |
 | --- | --- | --- |
 | Theme | **follows the browser** | The Studio client reads `of-theme`; when the key is **unset** it uses `prefers-color-scheme` and keeps following it live. This site deliberately never seeds that key, so both pages track the OS. An explicit Light/Dark choice on the gallery is mirrored into `of-theme`; **Auto** removes it again. |
-| Language | **English** | `of-lang` is seeded to `en` because the Studio otherwise hard-defaults to Chinese. The gallery's 中文 button writes the same key, and the Studio's own toggle takes over from there. |
+| Language | **English** | `of-lang` is seeded to `en`, because the Studio otherwise hard-defaults to Chinese. The gallery's 中文 button writes the same key, and the Studio's own toggle takes over from there. |
 
 ## Two deliberate differences from mathflow-site
 
-1. **`of-theme` is not seeded.** The original pins it to `dark`, which stops the client
-   from following the browser. Removing that line is what makes the theme requirement work.
-2. **`convo-path` is not implemented.** It belongs to the non-linear conversation panel,
-   which only renders for graphs carrying `conversation` metadata. None of the published
-   plans do, so the button that calls it never appears. `build/check.mjs` lists it as a
-   known gap — any *other* unimplemented endpoint fails the check.
-
-## Rebuilding
-
-```bash
-node build/schedule-to-graph.mjs   # data/plans/*.json  ->  *.graph.json + *.notes.json
-node build/snapshot.mjs            # -> data/g/*.json + data/index.json
-node build/check.mjs               # static self-check
-```
-
-`build/check.mjs` guards the failure modes that are invisible until a browser tries them:
-an endpoint the client calls but the static API does not implement, a snapshot missing a
-field a loader reads, `of-theme` being seeded, the two scripts loaded in the wrong order,
-edge or group references to nodes that do not exist, a note whose summary line does not
-match its body, a map with no weekday groups, or an external `<script>` creeping in.
+1. **`of-theme` is not seeded.** The original pins it to `dark`, which stops the client from
+   following the browser. Removing that line is what makes the theme requirement work.
+2. **`convo-path` is not implemented.** It serves the non-linear conversation panel, which
+   only renders for graphs carrying `conversation` metadata. None published here do, so the
+   button that calls it never appears. `build/check.mjs` lists it as a known gap — any
+   *other* unimplemented endpoint fails the check.
 
 ## Local preview
 
@@ -88,5 +85,5 @@ client is shipped unmodified. Structure inspired by
 
 ## License
 
-MIT for this repository's own files — see [LICENSE](LICENSE). OmniFlow's client and
-modules remain under their own licence (CC BY-NC 4.0).
+MIT for this repository's own files — see [LICENSE](LICENSE). OmniFlow's client and modules
+remain under their own licence (CC BY-NC 4.0).

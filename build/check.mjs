@@ -12,6 +12,7 @@
  */
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
+import { homedir } from "node:os";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -19,6 +20,8 @@ const read = (p) => readFileSync(join(root, p), "utf8");
 
 const problems = [];
 const fail = (where, msg) => problems.push(`${where}: ${msg}`);
+
+const VAULT = process.env.OF_HOME || join(homedir(), ".omni-flow");
 
 const app = read("assets/app.js");
 const api = read("assets/static-api.js");
@@ -80,7 +83,20 @@ if (!map.includes('id="canvasWrap"')) fail("map.html", "canvasWrap is gone — t
 if (!map.includes("cad-bar")) fail("map.html", "the snapshot badge is missing");
 if (!/window\.Cadence/.test(api)) fail("static-api.js", "window.Cadence (the badge API) is not exposed");
 
-/* ------------------------------------------- 4 · snapshot contract & data */
+/* ----------------------------------------------- 4 · the publish list agrees */
+
+const publishList = JSON.parse(read("build/publish.json")).graphs || [];
+if (!publishList.length) fail("build/publish.json", "no graphs listed — the site would be empty");
+const published = new Set(JSON.parse(read("data/index.json")).graphs.map((g) => g.id));
+for (const id of publishList) {
+  if (!published.has(id)) fail("build/publish.json", id + " is listed but has no bundle — run node build/snapshot.mjs");
+  if (!existsSync(join(VAULT, "graphs", id, "graph.json"))) fail("build/publish.json", id + " is not in the local OmniFlow vault");
+}
+for (const id of published) {
+  if (!publishList.includes(id)) fail("data/index.json", id + " is published but not in build/publish.json");
+}
+
+/* ------------------------------------------- 5 · snapshot contract & data */
 
 const index = JSON.parse(read("data/index.json"));
 for (const key of ["generatedAt", "generator", "graphs", "tree", "templates", "crosslinks"]) {
@@ -94,7 +110,6 @@ for (const key of ["en", "zh"]) {
 }
 if (!Array.isArray(index.tree?.folders)) fail("data/index.json", "tree.folders is missing");
 
-const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 let totalNodes = 0, totalEdges = 0, totalNotes = 0;
 
 for (const entry of index.graphs) {
@@ -112,12 +127,14 @@ for (const entry of index.graphs) {
   if (g.lang !== "en") fail(bundlePath, `lang is "${g.lang}", expected "en"`);
 
   const nodeIds = new Set(g.nodes.map((n) => n.id));
+  const BUILTIN = new Set(["start", "end", "process", "decision", "milestone", "task", "person",
+    "department", "goal", "risk", "idea", "note", "definition", "lemma", "proposition", "theorem",
+    "paper", "topic", "data", "custom"]);
+  const registered = new Set(Object.keys(g.nodeTypes || {}));
   for (const n of g.nodes) {
     if (!n.id || !n.label) fail(bundlePath, `node ${n.id ?? "(no id)"} is missing an id or a label`);
-    if (n.type && !/^(cat-)/.test(n.type) && !["start", "end", "process", "decision", "milestone", "task", "person",
-      "department", "goal", "risk", "idea", "note", "definition", "lemma", "proposition", "theorem", "paper",
-      "topic", "data", "custom", "day"].includes(n.type)) {
-      fail(bundlePath, `node ${n.id} has an unregistered type "${n.type}"`);
+    if (n.type && !BUILTIN.has(n.type) && !registered.has(n.type)) {
+      fail(bundlePath, `node ${n.id} has an unregistered type "${n.type}" — built-ins: ${[...BUILTIN].length}, graph registry: ${[...registered].join(", ") || "(none)"}`);
     }
   }
   for (const e of g.edges) {
@@ -148,10 +165,15 @@ for (const entry of index.graphs) {
   const warns = bundle.validate?.warnings || [];
   if (warns.length) fail(bundlePath, `validation warnings: ${warns.slice(0, 3).join(" | ")}`);
 
-  /* A week-plan graph without weekday groups is not a schedule any more. */
-  const groupLabels = g.groups.map((x) => x.label);
-  const dayish = DAYS.filter((d) => groupLabels.some((l) => l.toLowerCase().startsWith(d.slice(0, 3))));
-  if (!dayish.length) fail(bundlePath, "no weekday groups — this does not read as a schedule");
+  /* A published map has to read as a process, not a pile of cards. */
+  if (!g.groups.length) fail(bundlePath, "no groups — the map has no visual structure");
+  const nodeTypeSet = new Set(g.nodes.map((n) => n.type));
+  if (!["decision", "risk"].some((ty) => nodeTypeSet.has(ty))) {
+    fail(bundlePath, "no decision or risk card — a process map with no branch is just a list");
+  }
+  if (!((index.tree.assign || {})[entry.id])) {
+    fail("data/index.json", entry.id + " is not filed into a folder (tree.assign is empty for it)");
+  }
 
   totalNodes += g.nodes.length;
   totalEdges += g.edges.length;

@@ -1,37 +1,51 @@
 #!/usr/bin/env node
-/* Build the static snapshot the site serves.
+/* Build the static snapshot this site serves, straight out of a local OmniFlow vault.
  *
  *   node build/snapshot.mjs
  *
- * Reads data/plans/<id>.graph.json (+ <id>.notes.json, produced by
- * schedule-to-graph.mjs) and writes:
+ * build/publish.json lists the graph ids to publish. For each one this reads
  *
- *   data/g/<id>.json   { graph, validate, analyze, notes }  — one file per map
+ *   <vault>/graphs/<id>/graph.json      the single source of truth
+ *   <vault>/graphs/<id>/notes/<node>.md the note behind every card
+ *   <vault>/tree.json                   the folder tree, so the Studio sidebar matches
+ *
+ * and writes
+ *
+ *   data/g/<id>.json   { graph, validate, analyze, notes }
  *   data/index.json    { graphs, tree, templates, crosslinks } — the only file
  *                      index.html fetches
  *
- * Nothing is reimplemented: validation and analysis come from OmniFlow's own
- * browser-safe modules, which this site already ships under assets/lib/ and
- * which the Studio client uses at runtime.
+ * Validation and analysis are not reimplemented: they come from OmniFlow's own
+ * browser-safe modules, which this site already ships under assets/lib/ and which
+ * the Studio client uses at runtime.
+ *
+ * The vault location is $OF_HOME, or ~/.omni-flow when that is unset.
  */
-import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { homedir } from "node:os";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const plansDir = join(root, "data", "plans");
 const outDir = join(root, "data", "g");
 mkdirSync(outDir, { recursive: true });
+
+const vault = process.env.OF_HOME
+  ? process.env.OF_HOME
+  : join(homedir(), ".omni-flow");
+
+const publish = JSON.parse(readFileSync(join(root, "build", "publish.json"), "utf8"));
+const ids = publish.graphs || [];
+if (!ids.length) {
+  console.error("build/publish.json lists no graphs — nothing to publish");
+  process.exit(1);
+}
 
 /* ---- OmniFlow's own modules, exactly as the browser loads them ---- */
 const load = (p) => import(pathToFileURL(join(root, p)).href);
 const core = await load("assets/lib/graph-core.js");
 const analysis = await load("assets/lib/graph-analysis.js");
 const groupSuggest = await load("assets/lib/group-suggest.js");
-
-/* Published order is the gallery order. */
-const ORDER = ["deep-work-week", "teaching-week", "conference-week"];
-const FOLDER = "Schedules/Week plans";
 
 /* The built-in template catalogue, as the Studio's "new graph" dialog shows it. */
 const TEMPLATES = {
@@ -55,102 +69,97 @@ const TEMPLATES = {
   ],
 };
 
-const firstLine = (text) => String(text).split("\n")[0].slice(0, 120);
-
-const ids = readdirSync(plansDir)
-  .filter((f) => f.endsWith(".graph.json"))
-  .map((f) => f.replace(/\.graph\.json$/, ""))
-  .sort((a, b) => {
-    const ia = ORDER.indexOf(a), ib = ORDER.indexOf(b);
-    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
-  });
-
-if (!ids.length) {
-  console.error("no data/plans/*.graph.json — run node build/schedule-to-graph.mjs first");
-  process.exit(1);
+/* ---- the vault's folder tree, so the Studio sidebar matches the real layout ---- */
+let tree = { folders: [], assign: {} };
+const treePath = join(vault, "tree.json");
+if (existsSync(treePath)) {
+  const t = JSON.parse(readFileSync(treePath, "utf8"));
+  const used = new Set(ids.map((id) => t.assign?.[id]).filter(Boolean));
+  const folders = new Set();
+  for (const f of used) {
+    const parts = f.split("/");
+    for (let i = 1; i <= parts.length; i++) folders.add(parts.slice(0, i).join("/"));
+  }
+  tree = { folders: [...folders].sort(), assign: Object.fromEntries(ids.map((id) => [id, t.assign?.[id] ?? ""])) };
 }
 
 const graphs = [];
-const now = new Date().toISOString();
-
 for (const id of ids) {
-  const payload = JSON.parse(readFileSync(join(plansDir, id + ".graph.json"), "utf8"));
-  const notes = JSON.parse(readFileSync(join(plansDir, id + ".notes.json"), "utf8"));
+  const dir = join(vault, "graphs", id);
+  const graphPath = join(dir, "graph.json");
+  if (!existsSync(graphPath)) {
+    console.error(`✗ ${id}: not found in the vault at ${graphPath}`);
+    process.exit(1);
+  }
+  const raw = JSON.parse(readFileSync(graphPath, "utf8"));
+
+  /* Notes live beside the graph, one markdown file per node. */
+  const notesDir = join(dir, "notes");
+  const noteText = {};
+  if (existsSync(notesDir)) {
+    for (const f of readdirSync(notesDir)) {
+      if (!f.endsWith(".md")) continue;
+      noteText[f.replace(/\.md$/, "")] = readFileSync(join(notesDir, f), "utf8").trim();
+    }
+  } else if (raw.notes && typeof raw.notes === "object") {
+    for (const [k, v] of Object.entries(raw.notes)) noteText[k] = String(v);
+  }
 
   /* The shape the server stores: node.note carries the note's first line, and the
    * full markdown lives beside the graph. */
-  const noteText = {};
-  for (const n of notes) if (n.nodeId && n.content) noteText[n.nodeId] = n.content.trim();
   const summary = {};
-  for (const [nodeId, text] of Object.entries(noteText)) summary[nodeId] = firstLine(text);
+  for (const [nodeId, text] of Object.entries(noteText)) {
+    summary[nodeId] = text.split("\n")[0].slice(0, 120);
+  }
 
-  const normalized = core.normalizeGraph({
-    id,
-    name: payload.name,
-    description: payload.description || "",
-    direction: payload.direction === "LR" ? "LR" : "TD",
-    lang: "en",
-    revision: 1,
-    createdAt: now,
-    updatedAt: now,
-    nodeTypes: payload.nodeTypes || {},
-    nodes: payload.nodes,
-    edges: payload.edges,
-    groups: payload.groups,
-    notes: summary,
-  });
-
-  const verdict = core.validateGraph(normalized);
+  const graph = core.normalizeGraph(Object.assign({}, raw, { notes: summary }));
+  const verdict = core.validateGraph(graph);
   const analyzed = Object.assign(
     {},
-    analysis.analyzeGraph(normalized.nodes, normalized.edges, { trace: null }),
-    { groupSuggestions: groupSuggest.suggestGroups(normalized) }
+    analysis.analyzeGraph(graph.nodes, graph.edges, { trace: null }),
+    { groupSuggestions: groupSuggest.suggestGroups(graph) }
   );
 
-  const bundle = {
-    graph: normalized,
-    validate: verdict,
-    analyze: analyzed,
-    notes: noteText,
-  };
-  writeFileSync(join(outDir, id + ".json"), JSON.stringify(bundle, null, 2) + "\n", "utf8");
+  writeFileSync(
+    join(outDir, id + ".json"),
+    JSON.stringify({ graph, validate: verdict, analyze: analyzed, notes: noteText }, null, 2) + "\n",
+    "utf8"
+  );
 
   const bytes = statSync(join(outDir, id + ".json")).size;
   graphs.push({
     id,
-    name: normalized.name,
-    description: normalized.description,
-    revision: normalized.revision,
-    nodes: normalized.nodes.length,
-    edges: normalized.edges.length,
-    groups: normalized.groups.length,
+    name: graph.name,
+    description: graph.description,
+    revision: graph.revision,
+    nodes: graph.nodes.length,
+    edges: graph.edges.length,
+    groups: graph.groups.length,
     notes: Object.keys(noteText).length,
     valid: verdict.ok,
     warnings: verdict.warnings.length,
-    updatedAt: normalized.updatedAt,
+    updatedAt: graph.updatedAt,
     bytes,
   });
 
   console.log(
-    `${id.padEnd(16)} ${String(graphs.at(-1).nodes).padStart(3)} nodes  ` +
-    `${String(graphs.at(-1).edges).padStart(3)} edges  ${graphs.at(-1).groups} groups  ` +
-    `${String(graphs.at(-1).notes).padStart(3)} notes  valid=${verdict.ok}  warn=${verdict.warnings.length}  ${bytes}B`
+    `${id}\n  ${graph.nodes.length} nodes · ${graph.edges.length} edges · ${graph.groups.length} groups · ` +
+    `${Object.keys(noteText).length} notes · valid=${verdict.ok} · ${verdict.warnings.length} warnings · ${bytes}B`
   );
-  if (!verdict.ok) console.error("   issues:", verdict.issues.join(" | "));
-  if (verdict.warnings.length) console.error("   warnings:", verdict.warnings.slice(0, 4).join(" | "));
+  if (!verdict.ok) for (const i of verdict.issues) console.error("   issue: " + i);
+  for (const w of verdict.warnings) console.error("   warning: " + w);
 }
 
-const assign = {};
-for (const id of ids) assign[id] = FOLDER;
-
-const index = {
-  generatedAt: now,
-  generator: "cadence build/snapshot.mjs",
-  graphs,
-  tree: { folders: ["Schedules", FOLDER], assign },
-  templates: TEMPLATES,
-  crosslinks: [],
-};
-
-writeFileSync(join(root, "data/index.json"), JSON.stringify(index, null, 2) + "\n", "utf8");
-console.log(`\ndata/index.json written — ${graphs.length} maps`);
+writeFileSync(
+  join(root, "data", "index.json"),
+  JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    generator: "cadence build/snapshot.mjs",
+    graphs,
+    tree,
+    templates: TEMPLATES,
+    crosslinks: [],
+  }, null, 2) + "\n",
+  "utf8"
+);
+console.log(`\ndata/index.json written — ${graphs.length} map(s) from ${vault}`);
